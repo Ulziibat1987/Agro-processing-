@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="./btob-consulting-logo.jpg">
+    <title>Мал Аж Ахуйн Бүтэн Боловсруулалтын Нэгдсэн Схем | Агро-Тех Интерактив Загвар</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Animated SVG Flow Lines */
+        @keyframes dashFlow {
+            to {
+                stroke-dashoffset: -24;
+            }
+        }
+        .flow-line-active {
+            stroke-dasharray: 6 6;
+            animation: dashFlow 0.8s linear infinite;
+            stroke-width: 3px !important;
+            opacity: 1 !important;
+        }
+        .flow-line-dimmed {
+            opacity: 0.15 !important;
+        }
+
+        /* Hotspot Pulse Animation */
+        @keyframes pulseRing {
+            0% {
+                transform: scale(0.85);
+                opacity: 0.9;
+            }
+            70% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+        .hotspot-ring {
+            transform-origin: center;
+            transform-box: fill-box;
+            animation: pulseRing 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        /* Range Slider Styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            border-radius: 9999px;
+            background: #1e293b;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -6px;
+            background-color: #10b981;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            transition: transform 0.15s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        /* Smooth Card Transitions */
+        .node-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .node-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+    <style>
+        #livestock-photo { display: block; width: 100%; height: auto; }
+        .photo-hotspot { position: absolute; transform: translate(-50%, -50%); }
+        .photo-hotspot[aria-pressed="true"], .photo-hotspot:focus-visible {
+            outline: 3px solid #0f172a;
+            outline-offset: 2px;
+        }
+    </style>
+    <style>
+        .optimizer-stage-guide { position: relative; display: flex; align-items: center; margin: 1.25rem 0;
+            padding: .85rem .55rem; border: 1px solid #334155; border-radius: .85rem; background: #0f172a; }
+        .optimizer-stage { position: relative; flex: 1; display: flex; gap: .33rem; align-items: center;
+            justify-content: center; white-space: nowrap; color: #f8fafc; font-size: .875rem; font-weight: 700; }
+        .optimizer-stage:not(:last-child)::after { content: "→" / ""; position: absolute; right: 0;
+            top: 50%; transform: translate(50%, -50%); color: #94a3b8; }
+        .optimizer-stage-number { color: #a7f3d0; }
+        .optimizer-stage-label { display: inline-flex; align-items: center; gap: .28rem; }
+        .optimizer-stage-help { display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem;
+            border: 1px solid #64748b; border-radius: 50%; color: #e2e8f0; background: #1e293b;
+            cursor: help; font-size: .8rem; font-weight: 800; }
+        .optimizer-stage-help:hover, .optimizer-stage-help:focus-visible { background: #334155; outline: 2px solid #6ee7b7; outline-offset: 2px; }
+        .optimizer-stage-tip { position: absolute; z-index: 20; top: 100%; left: 0; width: clamp(14rem, 28vw, 20rem);
+            padding: .8rem; border: 1px solid #475569; border-radius: .65rem; background: #0f172a;
+            box-shadow: 0 .5rem 1.4rem #020617aa; white-space: normal; color: #cbd5e1; font-size: .8rem; font-weight: 400; line-height: 1.5; }
+        .optimizer-stage:nth-child(n+3) .optimizer-stage-tip { left: auto; right: 0; }
+        .optimizer-stage-tip strong { display: block; margin-bottom: .25rem; color: #f8fafc; }
+        @media (max-width: 600px) {
+            .optimizer-stage { position: static; flex-direction: column; gap: .2rem; font-size: .72rem; }
+            .optimizer-stage:not(:last-child)::after { position: static; display: none; }
+            .optimizer-stage:not(:last-child) .optimizer-stage-number::after { content: " →" / ""; color: #94a3b8; }
+            .optimizer-stage-help { width: 1.2rem; height: 1.2rem; font-size: .7rem; }
+            .optimizer-stage .optimizer-stage-tip, .optimizer-stage:nth-child(n+3) .optimizer-stage-tip { left: 0; right: 0; width: auto; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- ==================== 1. HEADER & EXECUTIVE KPI BANNER ==================== -->
+    <header class="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white border-b border-slate-800 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
+            <!-- Top Badge & Navigation -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div class="flex min-w-0 items-center gap-3">
+                    <img src="./btob-consulting-logo.jpg" alt="BToB Консалтингийн лого" width="52" height="52" class="h-12 w-12 shrink-0 rounded-xl ring-1 ring-white/30 sm:h-[52px] sm:w-[52px]">
+                    <span class="max-w-xs text-xs font-semibold leading-relaxed tracking-wide text-emerald-300">МОНГОЛ МАЛЫН ИНТЕРАКТИВ ЗАГВАР • ХАЯГДАЛГҮЙ ҮЙЛДВЭРЛЭЛ</span>
+                </div>
+                <nav class="flex flex-wrap gap-2 text-xs sm:text-sm font-medium">
+                    <a href="#species-selector" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition shadow-sm">Малын төрөл сонгох</a>
+                    <a href="#calculator-section" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 transition">Жингийн тооцоолуур</a>
+                    <a href="#combined-process-section" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 transition">Схемчилсэн загвар</a>
+                    <a href="#catalog-section" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 transition">Бүтээгдэхүүн сан</a>
+                </nav>
+            </div>
+
+            <!-- Species Selector Bar -->
+            <div id="species-selector" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Мал аж ахуйн салбар сонгогч</div>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-white" id="active-species-title">Үхрийн бүтэн боловсруулалтын нэгдсэн систем</h2>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="switchSpecies('cattle', this)" class="species-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white transition shadow-md flex items-center gap-2">
+                        <span>🐂 Үхэр</span>
+                    </button>
+                    <button type="button" onclick="switchSpecies('sheep', this)" class="species-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center gap-2">
+                        <span>🐏 Хонь</span>
+                    </button>
+                    <button type="button" onclick="switchSpecies('goat', this)" class="species-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center gap-2">
+                        <span>🐐 Ямаа</span>
+                    </button>
+                    <button type="button" onclick="switchSpecies('camel', this)" class="species-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center gap-2">
+                        <span>🐪 Тэмээ</span>
+                    </button>
+                    <button type="button" onclick="switchSpecies('horse', this)" class="species-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center gap-2">
+                        <span>🐎 Адуу</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Title & Subtitle -->
+            <div class="max-w-4xl">
+                <h1 id="main-heading" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                    ҮХРИЙН БҮТЭН БОЛОВСРУУЛАЛТЫН НЭГДСЭН СХЕМ
+                </h1>
+                <p class="mt-3 text-sm sm:text-base lg:text-lg text-slate-300 font-medium flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span class="text-emerald-400 font-semibold">Түүхий эдийн бүрэн ашиглалт (100%)</span>
+                    <span class="text-slate-600">•</span>
+                    <span class="text-amber-400 font-semibold">Нэмүү өртөг 3–5 дахин</span>
+                    <span class="text-slate-600">•</span>
+                    <span class="text-sky-400 font-semibold">Экспортод чиглэсэн үйлдвэрлэл (MNS, HACCP)</span>
+                </p>
+            </div>
+
+            <!-- Executive KPI Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-8">
+                <div class="bg-slate-900/70 backdrop-blur border border-slate-800 rounded-2xl p-4 flex items-start gap-3">
+                    <div class="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0">
+                        <i data-lucide="recycle" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-white">100%</div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-300">Бүрэн ашиглалт</div>
+                        <div class="text-xs text-slate-400 mt-0.5">Хаягдалгүй үйлдвэрлэл</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/70 backdrop-blur border border-slate-800 rounded-2xl p-4 flex items-start gap-3">
+                    <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 shrink-0">
+                        <i data-lucide="trending-up" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-white" id="kpi-multiplier">3–5x</div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-300">Нэмүү өртөг</div>
+                        <div class="text-xs text-slate-400 mt-0.5">Гүн боловсруулалтын өгөөж</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/70 backdrop-blur border border-slate-800 rounded-2xl p-4 flex items-start gap-3">
+                    <div class="p-2.5 rounded-xl bg-sky-500/20 text-sky-400 shrink-0">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-white">MNS / HACCP</div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-300">Чанарын стандарт</div>
+                        <div class="text-xs text-slate-400 mt-0.5">Олон улсын хяналт</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/70 backdrop-blur border border-slate-800 rounded-2xl p-4 flex items-start gap-3">
+                    <div class="p-2.5 rounded-xl bg-indigo-500/20 text-indigo-400 shrink-0">
+                        <i data-lucide="globe" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-white" id="kpi-products-count">42+</div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-300">Эцсийн бүтээгдэхүүн</div>
+                        <div class="text-xs text-slate-400 mt-0.5">Олон салбарын гарц</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- ==================== 1. LIVE WEIGHT YIELD CALCULATOR ==================== -->
+        <section id="calculator-section" class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6 sm:p-8">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-wider mb-1">
+                        <i data-lucide="scale" class="w-4 h-4"></i>
+                        <span>Интерактив тооцоолуур</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900" id="calc-section-title">Үхрийн амьдын жингийн түүхий эдийн гарц тооцоолуур</h2>
+                    <p class="text-sm text-slate-500 mt-1">Мал амьдын жинг гулсуураар эсвэл тоогоор оруулж салбар бүрийн түүхий эдийн гарцыг тооцоолно уу.</p>
+                </div>
+
+                <!-- Weight Input & Slider Control -->
+                <div class="bg-slate-900 text-white p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row items-center gap-4 shrink-0 w-full lg:w-auto">
+                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between">
+                        <label for="weight-input" class="text-sm font-medium text-slate-300">Амьдын жин:</label>
+                        <div class="flex items-center bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5">
+                            <input type="number" id="weight-input" min="30" max="850" value="450" class="w-20 bg-transparent text-right font-extrabold text-xl text-emerald-400 focus:outline-none">
+                            <span class="ml-1.5 text-sm font-semibold text-slate-400">кг</span>
+                        </div>
+                    </div>
+                    <div class="w-full sm:w-52 flex flex-col gap-1">
+                        <input type="range" id="weight-slider" min="30" max="850" step="5" value="450" class="w-full">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-medium">
+                            <span id="slider-min-label">Бяруу (250кг)</span>
+                            <span id="slider-max-label">Бух (850кг)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Stacked Progress Bar -->
+            <div class="mt-6">
+                <div class="flex justify-between text-xs font-semibold text-slate-500 mb-2">
+                    <span id="progress-bar-title">Нийт амьдын жингийн бүтэц (100%)</span>
+                    <span id="total-kg-label" class="text-slate-800 font-bold">Нийт: 450.0 кг</span>
+                </div>
+                <div class="w-full h-5 rounded-full overflow-hidden flex bg-slate-100 shadow-inner">
+                    <div id="bar-carcass" style="width: 43.0%" class="bg-rose-600 transition-all duration-300" title="Гулууз мах ба өөх"></div>
+                    <div id="bar-bone" style="width: 9.5%" class="bg-amber-500 transition-all duration-300" title="Яс, эвэр, туурай"></div>
+                    <div id="bar-offal" style="width: 12.0%" class="bg-emerald-600 transition-all duration-300" title="Дотор эрхтэн ба дайвар"></div>
+                    <div id="bar-hide" style="width: 8.0%" class="bg-sky-600 transition-all duration-300" title="Арьс, шир, ноос, ноолуур"></div>
+                    <div id="bar-other" style="width: 27.5%" class="bg-slate-500 transition-all duration-300" title="Цус, толгой, шийр, шингэн"></div>
+                </div>
+            </div>
+
+            <!-- 5 Yield Breakdown Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
+                <!-- Card 1 -->
+                <div class="rounded-2xl border border-rose-200 bg-rose-50/50 p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span id="card-label-1" class="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">52.5% Гулууз</span>
+                            <i data-lucide="beef" class="w-5 h-5 text-rose-600"></i>
+                        </div>
+                        <h3 id="card-title-1" class="text-sm font-bold text-slate-800 mt-3">Гулууз мах (Цул + Өөх)</h3>
+                        <p id="card-desc-1" class="text-xs text-slate-500 mt-0.5">Цэвэр цул мах</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-rose-200/60 flex items-baseline justify-between">
+                        <span id="yield-carcass" class="text-2xl font-extrabold text-rose-700">236.3 кг</span>
+                        <span id="yield-boneless" class="text-xs font-semibold text-rose-600">Цул: 193.5 кг</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="rounded-2xl border border-amber-200 bg-amber-50/50 p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span id="card-label-2" class="text-xs font-bold uppercase tracking-wider text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">9.5% Яс</span>
+                            <i data-lucide="bone" class="w-5 h-5 text-amber-600"></i>
+                        </div>
+                        <h3 id="card-title-2" class="text-sm font-bold text-slate-800 mt-3">Яс, эвэр, туурай</h3>
+                        <p id="card-desc-2" class="text-xs text-slate-500 mt-0.5">Чөмөгт, хавирганы яс</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-amber-200/60 flex items-baseline justify-between">
+                        <span id="yield-bone" class="text-2xl font-extrabold text-amber-700">42.8 кг</span>
+                        <span class="text-xs font-semibold text-amber-600">Коллаген/Гурил</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span id="card-label-3" class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">12.0% Дайвар</span>
+                            <i data-lucide="heart-pulse" class="w-5 h-5 text-emerald-600"></i>
+                        </div>
+                        <h3 id="card-title-3" class="text-sm font-bold text-slate-800 mt-3">Дотор эрхтэн & Дайвар</h3>
+                        <p id="card-desc-3" class="text-xs text-slate-500 mt-0.5">Таван цул, зургаан сав</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-emerald-200/60 flex items-baseline justify-between">
+                        <span id="yield-offal" class="text-2xl font-extrabold text-emerald-700">54.0 кг</span>
+                        <span class="text-xs font-semibold text-emerald-600">Хүнс / Хиам</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="rounded-2xl border border-sky-200 bg-sky-50/50 p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span id="card-label-4" class="text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-100 px-2.5 py-0.5 rounded-full">8.0% Арьс/Ноос</span>
+                            <i data-lucide="layers" class="w-5 h-5 text-sky-600"></i>
+                        </div>
+                        <h3 id="card-title-4" class="text-sm font-bold text-slate-800 mt-3">Арьс, шир, Ноос, Ноолуур</h3>
+                        <p id="card-desc-4" class="text-xs text-slate-500 mt-0.5">Шир, ноос, хөөвөр</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-sky-200/60 flex items-baseline justify-between">
+                        <span id="yield-hide" class="text-2xl font-extrabold text-sky-700">36.0 кг</span>
+                        <span class="text-xs font-semibold text-sky-600">Хөнгөн үйлдвэр</span>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="rounded-2xl border border-slate-200 bg-slate-100/70 p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span id="card-label-5" class="text-xs font-bold uppercase tracking-wider text-slate-700 bg-slate-200 px-2.5 py-0.5 rounded-full">27.5% Бусад</span>
+                            <i data-lucide="flask-conical" class="w-5 h-5 text-slate-600"></i>
+                        </div>
+                        <h3 id="card-title-5" class="text-sm font-bold text-slate-800 mt-3">Цус, Булчирхай, Бусад</h3>
+                        <p id="card-desc-5" class="text-xs text-slate-500 mt-0.5">Цус, толгой, шийр</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200 flex items-baseline justify-between">
+                        <span id="yield-other" class="text-2xl font-extrabold text-slate-700">123.8 кг</span>
+                        <span id="yield-blood" class="text-xs font-semibold text-slate-600">Цус: 15.8 кг</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 2 & 3. COMBINED PROCESS & PROFIT OPTIMIZER BLOCK (TABBED) ==================== -->
+        <section id="combined-process-section" class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6 sm:p-8">
+            <!-- Section Header & Tabs -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-indigo-600 font-bold text-xs uppercase tracking-wider mb-1">
+                        <i data-lucide="layers" class="w-4 h-4"></i>
+                        <span>Үйлдвэрлэлийн цогц удирдлага</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Технологийн схем ба Макс-Профит Схем</h2>
+                    <p class="text-sm text-slate-500 mt-1">Технологийн дамжлагын уялдаа холбоо болон хамгийн өндөр ашгийн маржийн тооцооллыг нэг блокоос таб солиж үзнэ үү.</p>
+                </div>
+
+                <!-- Tab Buttons -->
+                <div class="flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200 shrink-0">
+                    <button type="button" onclick="switchProcessTab('flow')" id="tab-btn-flow" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-900 text-white transition shadow-sm flex items-center gap-2">
+                        <i data-lucide="git-merge" class="w-4 h-4"></i>
+                        <span>Технологийн урсгал схем</span>
+                    </button>
+                    <button type="button" onclick="switchProcessTab('profit')" id="tab-btn-profit" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-slate-600 hover:text-slate-900 transition flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+                        <span>Макс-Профит Схем</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT 1: VALUE CHAIN FLOW DIAGRAM (WITH ANIMATED SVG LINES) -->
+            <div id="process-tab-flow" class="pt-6 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <p class="text-sm text-slate-600">Шат бүрийн урсгал болон нүдэн дээр дарахад хоорондын уялдаа холбоо амьд шугамаар урсаж харагдана.</p>
+                    <button type="button" id="reset-flow-btn" class="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                        <span>Бүх урсгалыг харуулах</span>
+                    </button>
+                </div>
+
+                <!-- Flowchart Container with SVG Connector Layer -->
+                <div class="relative overflow-x-auto pb-4">
+                    <div id="flow-diagram-wrapper" class="relative min-w-[960px] bg-slate-50/70 rounded-2xl border border-slate-200/80 p-6">
+                        <!-- Dynamic Animated SVG Lines Layer -->
+                        <svg id="flow-svg-layer" class="absolute inset-0 w-full h-full pointer-events-none z-0"></svg>
+
+                        <!-- 4 Columns Grid -->
+                        <div class="relative z-10 grid grid-cols-4 gap-8 items-stretch">
+                            <!-- STAGE 1 -->
+                            <div class="flex flex-col">
+                                <div class="bg-amber-600 text-white text-center py-2 px-3 rounded-xl font-bold text-sm shadow-sm mb-4">
+                                    1. АНХАН ШАТНЫ БОЛОВСРУУЛАЛТ
+                                </div>
+                                <div class="flex-1 flex flex-col justify-center gap-4">
+                                    <div data-node="prep-inspect" class="flow-node node-card cursor-pointer bg-white border-2 border-amber-200 hover:border-amber-500 rounded-xl p-4 shadow-sm">
+                                        <div class="text-xs font-bold text-amber-600 uppercase">Шат 1.1</div>
+                                        <div class="font-bold text-sm text-slate-800 mt-0.5">Хүлээн авах & Ариутгал</div>
+                                        <p class="text-xs text-slate-500 mt-1">Мал эмнэлгийн үзлэг, HACCP</p>
+                                    </div>
+                                    <div data-node="prep-grade" class="flow-node node-card cursor-pointer bg-white border-2 border-amber-200 hover:border-amber-500 rounded-xl p-4 shadow-sm">
+                                        <div class="text-xs font-bold text-amber-600 uppercase">Шат 1.2</div>
+                                        <div class="font-bold text-sm text-slate-800 mt-0.5">Эвдэж ангилах (MNS)</div>
+                                        <p class="text-xs text-slate-500 mt-1">Зэрэглэлээр шулах, ангилах</p>
+                                    </div>
+                                    <div data-node="prep-cold" class="flow-node node-card cursor-pointer bg-white border-2 border-amber-200 hover:border-amber-500 rounded-xl p-4 shadow-sm">
+                                        <div class="text-xs font-bold text-amber-600 uppercase">Шат 1.3</div>
+                                        <div class="font-bold text-sm text-slate-800 mt-0.5">Хөргөлт & Гүн хөлдөөлт</div>
+                                        <p class="text-xs text-slate-500 mt-1">Мах хөргөх (0..+4°C)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- STAGE 2 -->
+                            <div class="flex flex-col">
+                                <div class="bg-emerald-700 text-white text-center py-2 px-3 rounded-xl font-bold text-sm shadow-sm mb-4">
+                                    2. ҮНДСЭН ТҮҮХИЙ ЭД (5 БҮЛЭГ)
+                                </div>
+                                <div class="flex-1 flex flex-col justify-center gap-3">
+                                    <div data-node="raw-meat" class="flow-node node-card cursor-pointer bg-white border-2 border-emerald-200 hover:border-emerald-500 rounded-xl p-3.5 shadow-sm">
+                                        <div class="flex items-center gap-2 font-bold text-sm text-slate-800">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                                            <span>Гулууз мах & Өөх тос</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 mt-1">Цул мах, өөх</p>
+                                    </div>
+                                    <div data-node="raw-offal" class="flow-node node-card cursor-pointer bg-white border-2 border-emerald-200 hover:border-emerald-500 rounded-xl p-3.5 shadow-sm">
+                                        <div class="flex items-center gap-2 font-bold text-sm text-slate-800">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                            <span>Дотор эрхтэн & Цус</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 mt-1">Таван цул, цус</p>
+                                    </div>
+                                    <div data-node="raw-hide" class="flow-node node-card cursor-pointer bg-white border-2 border-emerald-200 hover:border-emerald-500 rounded-xl p-3.5 shadow-sm">
+                                        <div class="flex items-center gap-2 font-bold text-sm text-slate-800">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
+                                            <span>Арьс, шир, Ноос, Ноолуур</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 mt-1">Шир, ноос, хялгас</p>
+                                    </div>
+                                    <div data-node="raw-bone" class="flow-node node-card cursor-pointer bg-white border-2 border-emerald-200 hover:border-emerald-500 rounded-xl p-3.5 shadow-sm">
+                                        <div class="flex items-center gap-2 font-bold text-sm text-slate-800">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                                            <span>Яс, Эвэр, Туурай & Шөрмөс</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 mt-1">Чөмөгт яс, коллаген</p>
+                                    </div>
+                                    <div data-node="raw-glands" class="flow-node node-card cursor-pointer bg-white border-2 border-emerald-200 hover:border-emerald-500 rounded-xl p-3.5 shadow-sm">
+                                        <div class="flex items-center gap-2 font-bold text-sm text-slate-800">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+                                            <span>Дотоод шүүрлийн булчирхай</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 mt-1">Нойр, өнчин тархи, гиван</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- STAGE 3 -->
+                            <div class="flex flex-col">
+                                <div class="bg-sky-700 text-white text-center py-2 px-3 rounded-xl font-bold text-sm shadow-sm mb-4">
+                                    3. БОЛОВСРУУЛАЛТЫН ТЕХНОЛОГИ
+                                </div>
+                                <div class="flex-1 flex flex-col justify-center gap-3">
+                                    <div data-node="tech-cold" class="flow-node node-card cursor-pointer bg-white border-2 border-sky-200 hover:border-sky-500 rounded-xl p-3 shadow-sm">
+                                        <div class="font-bold text-xs text-sky-700">1. Хүйтний технологи</div>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">Сойлт, гүн хөлдөөлт</p>
+                                    </div>
+                                    <div data-node="tech-thermal" class="flow-node node-card cursor-pointer bg-white border-2 border-sky-200 hover:border-sky-500 rounded-xl p-3 shadow-sm">
+                                        <div class="font-bold text-xs text-sky-700">2. Дулааны технологи</div>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">Чанах, утах, хатаах</p>
+                                    </div>
+                                    <div data-node="tech-mech" class="flow-node node-card cursor-pointer bg-white border-2 border-sky-200 hover:border-sky-500 rounded-xl p-3 shadow-sm">
+                                        <div class="font-bold text-xs text-sky-700">3. Механик & Физик-хими</div>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">Идээлэх, ноос угаах</p>
+                                    </div>
+                                    <div data-node="tech-hydro" class="flow-node node-card cursor-pointer bg-white border-2 border-sky-200 hover:border-sky-500 rounded-xl p-3 shadow-sm">
+                                        <div class="font-bold text-xs text-sky-700">4. Гидролиз & Фермент</div>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">Коллаген, желатин</p>
+                                    </div>
+                                    <div data-node="tech-biotech" class="flow-node node-card cursor-pointer bg-white border-2 border-sky-200 hover:border-sky-500 rounded-xl p-3 shadow-sm">
+                                        <div class="font-bold text-xs text-sky-700">5. Өндөр технологи & Биотех</div>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">Инсулин, гепарин</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- STAGE 4 -->
+                            <div class="flex flex-col">
+                                <div class="bg-indigo-800 text-white text-center py-2 px-3 rounded-xl font-bold text-sm shadow-sm mb-4">
+                                    4. ЭЦСИЙН БҮТЭЭГДЭХҮҮН БА ЗАХ ЗЭЭЛ
+                                </div>
+                                <div class="flex-1 flex flex-col justify-center gap-2.5">
+                                    <div data-node="out-food" class="flow-node node-card cursor-pointer bg-rose-50 border-2 border-rose-200 hover:border-rose-500 rounded-xl p-2.5 shadow-sm">
+                                        <div class="font-bold text-xs text-rose-800 flex items-center gap-1.5">
+                                            <i data-lucide="utensils" class="w-3.5 h-3.5"></i> Хүнс
+                                        </div>
+                                        <p class="text-[11px] text-rose-700/80 mt-0.5">Стейк, хиам, борц</p>
+                                    </div>
+                                    <div data-node="out-pharma" class="flow-node node-card cursor-pointer bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-500 rounded-xl p-2.5 shadow-sm">
+                                        <div class="font-bold text-xs text-emerald-800 flex items-center gap-1.5">
+                                            <i data-lucide="pill" class="w-3.5 h-3.5"></i> Эм, биотехнологи
+                                        </div>
+                                        <p class="text-[11px] text-emerald-700/80 mt-0.5">Инсулин, гепарин, гиван</p>
+                                    </div>
+                                    <div data-node="out-cosmetic" class="flow-node node-card cursor-pointer bg-purple-50 border-2 border-purple-200 hover:border-purple-500 rounded-xl p-2.5 shadow-sm">
+                                        <div class="font-bold text-xs text-purple-800 flex items-center gap-1.5">
+                                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Гоо сайхан
+                                        </div>
+                                        <p class="text-[11px] text-purple-700/80 mt-0.5">Коллаген пептид</p>
+                                    </div>
+                                    <div data-node="out-light" class="flow-node node-card cursor-pointer bg-sky-50 border-2 border-sky-200 hover:border-sky-500 rounded-xl p-2.5 shadow-sm">
+                                        <div class="font-bold text-xs text-sky-800 flex items-center gap-1.5">
+                                            <i data-lucide="cog" class="w-3.5 h-3.5"></i> Хөнгөн үйлдвэр
+                                        </div>
+                                        <p class="text-[11px] text-sky-700/80 mt-0.5">Савхи, ноолуур</p>
+                                    </div>
+                                    <div data-node="out-feed" class="flow-node node-card cursor-pointer bg-amber-50 border-2 border-amber-200 hover:border-amber-500 rounded-xl p-2.5 shadow-sm">
+                                        <div class="font-bold text-xs text-amber-800 flex items-center gap-1.5">
+                                            <i data-lucide="wheat" class="w-3.5 h-3.5"></i> Тэжээл ба Бордоо
+                                        </div>
+                                        <p class="text-[11px] text-amber-700/80 mt-0.5">Ясны гурил, бордоо</p>
+                                    </div>
+                                    <div data-node="out-export" class="flow-node node-card cursor-pointer bg-indigo-50 border-2 border-indigo-200 hover:border-indigo-500 rounded-xl p-2.5 shadow-sm">
+                                        <div class="font-bold text-xs text-indigo-800 flex items-center gap-1.5">
+                                            <i data-lucide="plane-takeoff" class="w-3.5 h-3.5"></i> Экспорт
+                                        </div>
+                                        <p class="text-[11px] text-indigo-700/80 mt-0.5">Дулааны мах, гиван</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flow Inspector Panel -->
+                <div id="flow-inspector" class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div class="flex items-start gap-4">
+                        <div id="inspector-icon-box" class="p-3 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0">
+                            <i data-lucide="info" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span id="inspector-badge" class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-800 text-emerald-400">Заавар</span>
+                                <h3 id="inspector-title" class="text-base sm:text-lg font-bold text-white">Технологийн дамжлагын үе шат дээр дарна уу</h3>
+                            </div>
+                            <p id="inspector-desc" class="text-sm text-slate-300 mt-1">
+                                Аль ч шатны үйл явц дээр дарж хоорондын уялдаа холбоо, технологийн горимыг амьд зургаар харна уу.
+                            </p>
+                        </div>
+                    </div>
+                    <div id="inspector-metrics" class="flex flex-wrap gap-2 shrink-0">
+                        <span class="px-3 py-1.5 rounded-xl bg-slate-800 text-xs font-semibold text-slate-300 border border-slate-700">Стандарт: MNS / HACCP</span>
+                        <span class="px-3 py-1.5 rounded-xl bg-slate-800 text-xs font-semibold text-emerald-400 border border-slate-700">Хаягдал: 0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT 2: MAX-PROFIT SCHEME OPTIMIZER -->
+            <div id="process-tab-profit" class="pt-6 hidden space-y-6">
+                <div class="bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white rounded-3xl shadow-xl border border-slate-800 p-6 sm:p-8">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                <span id="optimizer-badge-text">Макс-Профит Схем (Үхэр)</span>
+                            </div>
+                            <h2 class="text-xl sm:text-3xl font-extrabold text-white">Боловсруулалтын өртөг ба ашиг</h2>
+                            <p class="text-sm text-slate-300 mt-1">Анхан, Дунд, Гүн түвшний дүн автоматаар гарна. Өндөр технологи сонгосон мөрийн борлуулалтын дүнг ₮-өөр оруулна.</p>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3 shrink-0">
+                            <button type="button" onclick="maximizeOptimizerProfit()" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-emerald-500 hover:from-amber-400 hover:to-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg transition flex items-center gap-2">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                                <span>Үр дүн өндөртэй хувилбарыг сонгох</span>
+                            </button>
+                            <button type="button" onclick="resetOptimizer()" class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition flex items-center gap-1.5">
+                                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                                <span>Анхны байдалд</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <ol id="optimizer-stage-guide" class="optimizer-stage-guide" aria-label="Боловсруулалтын дөрвөн шат">
+                        <li class="optimizer-stage">
+                            <span class="optimizer-stage-number" aria-hidden="true">1.</span>
+                            <span class="optimizer-stage-label">Анхан
+                                <button type="button" class="optimizer-stage-help" aria-label="Анхан шатны боловсруулалт — тайлбар" aria-describedby="optimizer-stage-tip-0">?</button>
+                            </span>
+                            <div role="tooltip" id="optimizer-stage-tip-0" class="optimizer-stage-tip" hidden>
+                                <strong>Анхан шатны боловсруулалт</strong>
+                                <p>Мах, сүү, арьс шир, ноос ноолуурыг ангилж, цэвэрлэн түүхий эд болгон бэлтгэнэ. Махыг сэврээж, хөргөнө.</p>
+                            </div>
+                        </li>
+                        <li class="optimizer-stage">
+                            <span class="optimizer-stage-number" aria-hidden="true">2.</span>
+                            <span class="optimizer-stage-label">Дунд
+                                <button type="button" class="optimizer-stage-help" aria-label="Дунд шатны боловсруулалт — тайлбар" aria-describedby="optimizer-stage-tip-1">?</button>
+                            </span>
+                            <div role="tooltip" id="optimizer-stage-tip-1" class="optimizer-stage-tip" hidden>
+                                <strong>Дунд шатны боловсруулалт</strong>
+                                <p>Түүхий эдийг үйлдвэрийн аргаар боловсруулна. Жишээ нь гулууз махыг эвдэж, шулаад, ангилан вакуум савлана.</p>
+                            </div>
+                        </li>
+                        <li class="optimizer-stage">
+                            <span class="optimizer-stage-number" aria-hidden="true">3.</span>
+                            <span class="optimizer-stage-label">Гүн
+                                <button type="button" class="optimizer-stage-help" aria-label="Гүн боловсруулалт — тайлбар" aria-describedby="optimizer-stage-tip-2">?</button>
+                            </span>
+                            <div role="tooltip" id="optimizer-stage-tip-2" class="optimizer-stage-tip" hidden>
+                                <strong>Гүн боловсруулалт</strong>
+                                <p>Түүхий эдийг нэмүү өртөгтэй эцсийн бүтээгдэхүүн болгоно. Жишээ нь борц, хиам, утсан мах, махан нөөш үйлдвэрлэнэ.</p>
+                            </div>
+                        </li>
+                        <li class="optimizer-stage">
+                            <span class="optimizer-stage-number" aria-hidden="true">4.</span>
+                            <span class="optimizer-stage-label">Өндөр
+                                <button type="button" class="optimizer-stage-help" aria-label="Өндөр технологи — тайлбар" aria-describedby="optimizer-stage-tip-3">?</button>
+                            </span>
+                            <div role="tooltip" id="optimizer-stage-tip-3" class="optimizer-stage-tip" hidden>
+                                <strong>Өндөр технологи</strong>
+                                <p>Биотехнологи, нанотехнологи, молекул биологи, ферментийн технологи ашиглан өндөр үнэ цэнтэй бүтээгдэхүүн гаргана. Энэ түвшний борлуулалтын дүнг өөрөө оруулна.</p>
+                            </div>
+                        </li>
+                    </ol>
+<details class="mb-5 rounded-xl border border-slate-700 bg-slate-900 p-4 text-sm text-slate-300">
+<summary class="cursor-pointer font-bold text-white">Тооцооны аргачлал, судалгааны эх сурвалж</summary>
+<p class="mt-3">Жишиг жинд ногдох боловсруулах зардал, орлогыг тухайн мөрийн орцын жинд харьцуулж тооцно. Зөрүү = тооцоолсон орлого − боловсруулах зардал. Энэ дүнд түүхий эдийн худалдан авалт, татвар, санхүүжилт болон бусад зардлыг хасаагүй.</p>
+<p class="mt-2">Анхан болон Гүн түвшний орлогыг өмнөх загвараас авсан. Дунд түвшний орлого нь энэ хоёрын дундаж. Боловсруулах зардал нь гүн түвшний зардлын 30%, 65%, 100%, 160%-тай тэнцэнэ. Өндөр технологийн борлуулалтын нийт дүнг хэрэглэгч ₮-өөр оруулна. Сүүний нэгжийн утга мөн жишээ.</p>
+<p class="mt-2">Дүн нь хувилбаруудыг харьцуулах төлөвлөлтийн жишээ. Доорх эх сурвалжууд нь үнэ болон өртгийн аргачлалын лавлагаа.</p>
+<ul class="mt-3 list-disc space-y-2 pl-5 text-xs">
+<li><a class="font-semibold text-emerald-300 underline" href="https://www.1212.mn/mnohio/statistics-dashboard/commodity-price-and-producer-price">ҮСХ · Үйлдвэрлэгчийн үнэ</a> — 2026 оны 7-р сард ястай үхрийн махны үйлдвэрлэгчийн үнэ 26,227 ₮/кг. Борлуулалтын үнийн жишиг.</li>
+<li><a class="font-semibold text-emerald-300 underline" href="https://mse.mn/bvrtgel/document/32767_2011-08-30%2005_35_22.pdf">Монголын хөрөнгийн бирж · Жаст Агро</a> — Түүхэн бизнес төлөвлөгөөнд 1 кг махны үйлдвэрлэлийн зардлыг 385.5 ₮, элэгдлийг 180.7 ₮ гэж тус тус тооцжээ.</li>
+<li><a class="font-semibold text-emerald-300 underline" href="https://sdgbeproject.mn/public/storage/media/f4dae134-3667-44f4-ad25-f70c5981dacc.pdf">Монголын дайвар түүхий эдийн өртгийн сүлжээ · §3.3</a> — Малын худалдан авалтын өртгийг бүтээгдэхүүний бүлгүүдэд давхардуулалгүй хуваарилах үндэслэл.</li>
+<li><a class="font-semibold text-emerald-300 underline" href="https://www.unido.org/sites/default/files/files/2021-02/manual_for_the_preparation_of_industrial_feasibility_studies.pdf">FAO, UNIDO · Үйлдвэрлэлийн өртөг</a> — Шууд ба шууд бус зардлын ангилал. <a class="underline" href="https://www.fao.org/4/y4532e/y4532e09.htm">FAO-ийн орц, тоног төхөөрөмжийн тооцоо</a>.</li>
+<li><a class="font-semibold text-emerald-300 underline" href="https://www.who.int/publications/m/item/trs986-annex2">ДЭМБ · GMP-ийн үндсэн зарчим</a> — Эмийн үйлдвэрлэлд хамаарах чанарын хяналт, баталгаажуулалтын зардлыг тусад нь төсөвлөх үндэслэл.</li>
+</ul></details>
+
+                    <!-- Optimizer Live Results Banner -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 my-6">
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+                            <div class="text-xs font-medium text-slate-400">Тооцоонд хамрагдсан түүхий эд</div>
+                            <div id="opt-total-weight" class="text-2xl font-extrabold text-white mt-1">—</div>
+                            <div id="opt-coverage" class="text-[11px] text-slate-400 mt-0.5">Өгөгдөл оруулна уу.</div>
+                        </div>
+
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+                            <div class="text-xs font-medium text-slate-400">Нийт боловсруулах зардал</div>
+                            <div id="opt-total-cost" class="text-2xl font-extrabold text-amber-400 mt-1">—</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">Сонгосон түвшний зардлын нийлбэр</div>
+                        </div>
+
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+                            <div class="text-xs font-medium text-slate-400">Нийт борлуулалтын орлого</div>
+                            <div id="opt-total-revenue" class="text-2xl font-extrabold text-emerald-400 mt-1">—</div>
+                            <div class="text-[11px] text-emerald-400 mt-0.5" id="opt-multiplier-label"></div>
+                        </div>
+
+                        <div class="bg-emerald-950/60 border border-emerald-500/40 rounded-2xl p-4">
+                            <div class="text-xs font-medium text-emerald-300">Орлого − боловсруулах зардал</div>
+                            <div id="opt-net-profit" class="text-2xl font-extrabold text-emerald-300 mt-1">—</div>
+                            <div class="text-[11px] text-emerald-400 mt-0.5 font-bold" id="opt-margin-percent">Зөрүүний хувь: —</div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Choices Table -->
+                    <div class="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
+                        <div class="px-6 py-4 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
+                            <h3 class="font-bold text-sm text-white">Түүхий эд бүрийн боловсруулалтын түвшин сонгох</h3>
+                            <span class="text-xs text-slate-400">Жишиг дүн ₮</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full min-w-[900px] text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-950 text-slate-400 text-xs uppercase tracking-wider border-b border-slate-800">
+                                        <th class="py-3 px-4">Түүхий эдийн бүлэг</th>
+                                        <th class="py-3 px-4">Орц (кг)</th>
+                                        <th class="py-3 px-4">Түвшин</th>
+                                        <th class="py-3 px-4 text-right">Боловсруулах өртөг</th>
+                                        <th class="py-3 px-4 text-right">Тооцоолсон орлого</th>
+                                        <th class="py-3 px-4 text-right">Зөрүү</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="optimizer-rows-container" class="divide-y divide-slate-800/80 text-sm">
+                                    <!-- Populated dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/70 border border-slate-800 rounded-2xl p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-400">
+                                <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                            </div>
+                            <div class="text-xs sm:text-sm text-slate-300">
+                                <span id="opt-status" role="status">Түвшнээ сонгоод зардал, орлогыг харьцуулна уу. Тооцоонд сүү нэмэх бол хэмжээг кг-аар оруулна.</span>
+                            </div>
+                        </div>
+                        <button type="button" onclick="openConsultingModal()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition shadow-sm shrink-0 flex items-center gap-2">
+                            <i data-lucide="phone-call" class="w-4 h-4"></i>
+                            <span>Бизнес төсөл боловсруулах / Хамтран ажиллах</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. CATTLE ANATOMY & 5 GROUPS EXPLORER ==================== -->
+        <section id="anatomy-section" class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6 sm:p-8">
+            <div class="mb-6">
+                <div class="inline-flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-wider mb-1">
+                    <i data-lucide="scan" class="w-4 h-4"></i>
+                    <span id="anatomy-section-badge">Анатомийн интерактив бүдүүвч ба түүхий эдийн ангилал</span>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900" id="anatomy-section-title">Малын түүхий эдийн 5 үндсэн бүлгийн бүрэн задаргаа</h2>
+                <p class="text-sm text-slate-500 mt-1">Малын төрөл солиход 3D зураг дагаж өөрчлөгдөнө. Дугаартай цэг эсвэл бүлгийн товч дээр дарж холбогдох бүтээгдэхүүнийг тодруулна.</p>
+            </div>
+
+            <!-- Livestock photo and material groups -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-slate-50 rounded-2xl p-4 sm:p-6 border border-slate-200/80 mb-8">
+                <figure class="lg:col-span-7 min-w-0">
+                    <div class="relative overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+                        <img id="livestock-photo" src="./livestock/cattle.jpg?v=3d" width="1536" height="1024" loading="lazy" alt="Үхрийн бүтэн биеийн 3D зураг">
+                        <button type="button" data-group="group-meat" aria-label="1. Гулууз мах" aria-pressed="false" class="anatomy-hotspot photo-hotspot h-7 w-7 rounded-full border-2 border-white bg-rose-600 text-xs font-bold text-white shadow-lg" style="left:54%;top:35%">1</button>
+                        <button type="button" data-group="group-offal" aria-label="2. Дотор эрхтэн ба дайвар" aria-pressed="false" class="anatomy-hotspot photo-hotspot h-7 w-7 rounded-full border-2 border-white bg-emerald-600 text-xs font-bold text-white shadow-lg" style="left:40%;top:48%">2</button>
+                        <button type="button" data-group="group-hide" aria-label="3. Арьс, шир, ноос, ноолуур" aria-pressed="false" class="anatomy-hotspot photo-hotspot h-7 w-7 rounded-full border-2 border-white bg-sky-600 text-xs font-bold text-white shadow-lg" style="left:72%;top:37%">3</button>
+                        <button type="button" data-group="group-bone" aria-label="4. Яс, эвэр, туурай, шөрмөс" aria-pressed="false" class="anatomy-hotspot photo-hotspot h-7 w-7 rounded-full border-2 border-white bg-amber-600 text-xs font-bold text-white shadow-lg" style="left:33%;top:72%">4</button>
+                        <button type="button" data-group="group-glands" aria-label="5. Дотоод шүүрлийн булчирхай" aria-pressed="false" class="anatomy-hotspot photo-hotspot h-7 w-7 rounded-full border-2 border-white bg-purple-600 text-xs font-bold text-white shadow-lg" style="left:17%;top:29%">5</button>
+                    </div>
+                    <figcaption class="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+                        <strong id="livestock-photo-label" class="text-slate-800">Үхэр</strong>
+                        <span>AI-аар бүтээсэн 3D зураг</span>
+                    </figcaption>
+                </figure>
+                <!-- Right Side Group Selector Cards -->
+                <div class="lg:col-span-5 space-y-2.5">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">5 үндсэн түүхий эдийн бүлэг</h3>
+
+                    <button type="button" data-group="group-meat" class="group-tab-btn w-full text-left p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50/80 transition flex items-center justify-between shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-rose-600 text-white font-bold text-sm flex items-center justify-center shrink-0">1</span>
+                            <div>
+                                <div class="font-bold text-sm text-slate-900">Гулууз махны задаргаа</div>
+                                <div class="text-xs text-slate-600">Дээд, I, II зэрэг & Стейк, Борц</div>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-600"></i>
+                    </button>
+
+                    <button type="button" data-group="group-offal" class="group-tab-btn w-full text-left p-3.5 rounded-xl border border-slate-200 bg-white hover:border-emerald-400 transition flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white font-bold text-sm flex items-center justify-center shrink-0">2</span>
+                            <div>
+                                <div class="font-bold text-sm text-slate-900">Дотор эрхтэн & Дайвар түүхий эд</div>
+                                <div class="text-xs text-slate-500">Таван цул, цус, хиам, гепарин</div>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+
+                    <button type="button" data-group="group-hide" class="group-tab-btn w-full text-left p-3.5 rounded-xl border border-slate-200 bg-white hover:border-sky-400 transition flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-sky-600 text-white font-bold text-sm flex items-center justify-center shrink-0">3</span>
+                            <div>
+                                <div class="font-bold text-sm text-slate-900">Арьс, шир, Ноос, Ноолуур</div>
+                                <div class="text-xs text-slate-500">Савхи, гутал, ноолуур, хялгас</div>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+
+                    <button type="button" data-group="group-bone" class="group-tab-btn w-full text-left p-3.5 rounded-xl border border-slate-200 bg-white hover:border-amber-400 transition flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-amber-600 text-white font-bold text-sm flex items-center justify-center shrink-0">4</span>
+                            <div>
+                                <div class="font-bold text-sm text-slate-900">Яс, Эвэр, Туурай & Шөрмөс</div>
+                                <div class="text-xs text-slate-500">Коллаген, желатин, ясан шаазан</div>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+
+                    <button type="button" data-group="group-glands" class="group-tab-btn w-full text-left p-3.5 rounded-xl border border-slate-200 bg-white hover:border-purple-400 transition flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-lg bg-purple-600 text-white font-bold text-sm flex items-center justify-center shrink-0">5</span>
+                            <div>
+                                <div class="font-bold text-sm text-slate-900">Дотоод шүүрлийн булчирхай & Тусгай</div>
+                                <div class="text-xs text-slate-500">Инсулин, окситоцин, гиван</div>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Group Detail Panels -->
+            <div id="group-content-container">
+                <!-- Panel 1 -->
+                <div id="group-meat" class="group-panel space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Бүлэг 1 • Гулуузны махны задаргаа</span>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900">Зэрэглэл, ангилал ба боловсруулах технологи</h3>
+                        </div>
+                        <button type="button" onclick="jumpToCatalogGroup('meat')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-sm transition">
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                            <span>Бүтээгдэхүүн рүү очиж харах</span>
+                        </button>
+                    </div>
+                    <p class="text-sm text-slate-600">Энэ бүлэгт гол мах, нурууны нарийн мах, гуя, сээр, өвчүү зэрэг цул мах болон стейк, борц, хиамны үйлдвэрлэлийн мэдээлэл багтана.</p>
+                </div>
+
+                <!-- Panel 2 -->
+                <div id="group-offal" class="group-panel hidden space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Бүлэг 2 • Дотор эрхтэн & Дайвар түүхий эд</span>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900">Таван цул, зургаан сав, цус ба гепарин</h3>
+                        </div>
+                        <button type="button" onclick="jumpToCatalogGroup('offal')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-sm transition">
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                            <span>Бүтээгдэхүүн рүү очиж харах</span>
+                        </button>
+                    </div>
+                    <p class="text-sm text-slate-600">Энэ бүлэгт зүрх, элэг, уушги, бөөр, гүзээ, сархинаг, цусан хиам болон гепарины түүхий эдийн задаргаа орно.</p>
+                </div>
+
+                <!-- Panel 3 -->
+                <div id="group-hide" class="group-panel hidden space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Бүлэг 3 • Арьс, шир, Ноос, Ноолуур</span>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900">Савхи, гутал, ноолууран сүлжмэл</h3>
+                        </div>
+                        <button type="button" onclick="jumpToCatalogGroup('hide')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-sm transition">
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                            <span>Бүтээгдэхүүн рүү очиж харах</span>
+                        </button>
+                    </div>
+                    <p class="text-sm text-slate-600">Энэ бүлэгт зузаан ба нарийн шир, нэхий, ноос ноолуур угааж самнах, сүлжих технологи багтана.</p>
+                </div>
+
+                <!-- Panel 4 -->
+                <div id="group-bone" class="group-panel hidden space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Бүлэг 4 • Яс, Эвэр, Туурай & Шөрмөс</span>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900">Коллаген, желатин, ясан шаазан</h3>
+                        </div>
+                        <button type="button" onclick="jumpToCatalogGroup('bone')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-sm transition">
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                            <span>Бүтээгдэхүүн рүү очиж харах</span>
+                        </button>
+                    </div>
+                    <p class="text-sm text-slate-600">Энэ бүлэгт ясны бульон, хүнсний желатин, коллаген пептид, ясан шаазан болон бордооны үйлдвэрлэл багтана.</p>
+                </div>
+
+                <!-- Panel 5 -->
+                <div id="group-glands" class="group-panel hidden space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Бүлэг 5 • Дотоод шүүрлийн булчирхай & Тусгай</span>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900">Инсулин, окситоцин, гиван</h3>
+                        </div>
+                        <button type="button" onclick="jumpToCatalogGroup('glands')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-sm transition">
+                            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+                            <span>Бүтээгдэхүүн рүү очиж харах</span>
+                        </button>
+                    </div>
+                    <p class="text-sm text-slate-600">Энэ бүлэгт нойр булчирхайн инсулин, өнчин тархины окситоцин, цөсний чулуу (гиван) зэрэг өндөр үнэтэй биотехнологийн бүтээгдэхүүн орно.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. END-PRODUCT SEARCH & CATALOG ==================== -->
+        <section id="catalog-section" class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6 sm:p-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-indigo-600 font-bold text-xs uppercase tracking-wider mb-1">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                        <span id="catalog-header-subtitle">Эцсийн бүтээгдэхүүний нэгдсэн сан (Мал бүрээр ангилсан)</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Бүтээгдэхүүн хайх ба салбараар шүүх</h2>
+                    <p class="text-sm text-slate-500 mt-1">Түүхий эдийн эх үүсвэр, боловсруулах технологи болон эцсийн бүтээгдэхүүний нэрээр хайна уу.</p>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full lg:w-80">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="product-search-input" placeholder="Жнь: Инсулин, Савхи, Желатин, Борц..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20">
+                </div>
+            </div>
+
+            <!-- Species Filter Pills -->
+            <div class="flex flex-wrap gap-2 mb-4" id="species-filter-container">
+                <span class="text-xs font-bold text-slate-500 self-center mr-2">Малын төрөл:</span>
+                <button type="button" data-species="all" class="species-filter-pill active px-3 py-1.5 rounded-full text-xs font-bold bg-slate-900 text-white transition">Бүх мал</button>
+                <button type="button" data-species="cattle" class="species-filter-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🐂 Үхэр</button>
+                <button type="button" data-species="sheep" class="species-filter-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🐏 Хонь</button>
+                <button type="button" data-species="goat" class="species-filter-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🐐 Ямаа</button>
+                <button type="button" data-species="camel" class="species-filter-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🐪 Тэмээ</button>
+                <button type="button" data-species="horse" class="species-filter-pill px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">🐎 Адуу</button>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex flex-wrap gap-2 mb-6" id="category-filters">
+                <button type="button" data-filter="all" class="filter-pill active px-4 py-2 rounded-full text-xs font-bold bg-slate-900 text-white transition">Бүгд (42)</button>
+                <button type="button" data-filter="food" class="filter-pill px-4 py-2 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-rose-100 hover:text-rose-800 transition">Хүнс</button>
+                <button type="button" data-filter="pharma" class="filter-pill px-4 py-2 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-emerald-100 hover:text-emerald-800 transition">Эм, биотехнологи</button>
+                <button type="button" data-filter="cosmetic" class="filter-pill px-4 py-2 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-purple-100 hover:text-purple-800 transition">Гоо сайхан</button>
+                <button type="button" data-filter="light" class="filter-pill px-4 py-2 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-sky-100 hover:text-sky-800 transition">Хөнгөн үйлдвэр</button>
+                <button type="button" data-filter="agri" class="filter-pill px-4 py-2 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-amber-100 hover:text-amber-800 transition">Тэжээл ба Бордоо</button>
+            </div>
+
+            <!-- Results Counter -->
+            <div class="text-xs font-semibold text-slate-500 mb-4">
+                Нийт илэрц: <span id="catalog-count" class="text-slate-900 font-bold">42</span> бүтээгдэхүүн
+            </div>
+
+            <!-- Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-search-state" class="hidden text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+                <i data-lucide="search-x" class="w-10 h-10 text-slate-400 mx-auto mb-2"></i>
+                <p class="text-sm font-bold text-slate-700">Хайлтад тохирох бүтээгдэхүүн олдсонгүй</p>
+                <p class="text-xs text-slate-500 mt-1">Өөр түлхүүр үг оруулах эсвэл шүүлтүүрээ солино уу.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== PRODUCT DETAIL MODAL ==================== -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200">
+            <div class="p-6 sm:p-8 space-y-6">
+                <!-- Modal Header -->
+                <div class="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <span id="modal-category-badge" class="text-xs font-bold px-2.5 py-0.5 rounded-full border">Хүнс</span>
+                        <h3 id="modal-product-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">Бүтээгдэхүүний нэр</h3>
+                        <p id="modal-product-source" class="text-xs text-slate-500 mt-0.5">Эх үүсвэр ба түүхий эд</p>
+                    </div>
+                    <button type="button" onclick="closeProductDetail()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Description -->
+                <div class="text-sm text-slate-700 leading-relaxed" id="modal-product-desc">
+                    Бүтээгдэхүүний дэлгэрэнгүй тайлбар...
+                </div>
+
+                <!-- Consulting CTA inside modal -->
+                <div class="p-4 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <div class="text-xs font-bold text-emerald-400">Бизнес төсөл боловсруулах</div>
+                        <div class="mt-1 flex items-center gap-2 text-sm font-extrabold">
+                            <img src="./btob-consulting-logo.jpg" alt="" width="32" height="32" loading="lazy" class="h-8 w-8 shrink-0 rounded-md ring-1 ring-white/25">
+                            <span>Би тү Би Консалтинг ХХК</span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="openConsultingModal()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-sm shrink-0 flex items-center gap-2">
+                        <i data-lucide="phone-call" class="w-4 h-4"></i>
+                        <span>Холбогдох: 99997073</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="consulting-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200 text-center space-y-4">
+            <img src="./btob-consulting-logo.jpg" alt="" width="72" height="72" loading="lazy" class="mx-auto h-[72px] w-[72px] rounded-2xl ring-1 ring-slate-200">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">Хамтран ажиллах</span>
+                <h3 class="text-xl font-extrabold text-slate-900 mt-2">Би тү Би Консалтинг ХХК</h3>
+                <p class="text-xs text-slate-500 mt-1">Мал аж ахуйн бүтэн боловсруулалт, үйлдвэрийн төсөл, ТЭЗҮ боловсруулах чиглэлээр хамтран ажиллана.</p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-left text-xs">
+                <div class="flex items-center gap-2 text-slate-700">
+                    <i data-lucide="phone" class="w-4 h-4 text-emerald-600"></i>
+                    <strong class="text-slate-900">Утас:</strong> <a href="tel:99997073" class="text-emerald-600 font-extrabold text-sm hover:underline">99997073</a>
+                </div>
+                <div class="flex items-center gap-2 text-slate-700">
+                    <i data-lucide="mail" class="w-4 h-4 text-emerald-600"></i>
+                    <strong class="text-slate-900">Имэйл:</strong> info@btbconsulting.mn
+                </div>
+                <div class="flex items-center gap-2 text-slate-700">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600"></i>
+                    <strong class="text-slate-900">Хаяг:</strong> Улаанбаатар хот, Монгол улс
+                </div>
+            </div>
+
+            <div class="pt-2 flex gap-3">
+                <button type="button" onclick="closeConsultingModal()" class="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                    Хаах
+                </button>
+                <a href="tel:99997073" class="flex-1 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition flex items-center justify-center gap-2">
+                    <i data-lucide="phone-call" class="w-4 h-4"></i>
+                    <span>Залгах</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-slate-950 text-slate-400 py-8 border-t border-slate-900 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+            <div>
+                <span class="text-white font-bold">Мал Аж Ахуйн Бүтэн Боловсруулалтын Нэгдсэн Схем</span> — Хаягдалгүй, өндөр нэмүү өртөг шингэсэн агро-интерактив загвар.
+            </div>
+            <div class="flex items-center gap-3">
+                <img src="./btob-consulting-logo.jpg" alt="" width="44" height="44" loading="lazy" class="h-11 w-11 shrink-0 rounded-lg ring-1 ring-white/20">
+                <span>Холбоо барих: Би тү Би Консалтинг ХХК (99997073)</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // Global variables
+        let currentSpecies = 'cattle';
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let catalogSpeciesFilter = 'all';
+        let activeAnatomyHighlightGroup = null;
+        let activeFlowMarket = null;
+
+        const flowMarkets = {
+            'out-food': { category: 'food', classes: 'bg-rose-50 border-rose-400 ring-2 ring-rose-400' },
+            'out-pharma': { category: 'pharma', classes: 'bg-emerald-50 border-emerald-400 ring-2 ring-emerald-400' },
+            'out-cosmetic': { category: 'cosmetic', classes: 'bg-purple-50 border-purple-400 ring-2 ring-purple-400' },
+            'out-light': { category: 'light', classes: 'bg-sky-50 border-sky-400 ring-2 ring-sky-400' },
+            'out-feed': { category: 'agri', classes: 'bg-amber-50 border-amber-400 ring-2 ring-amber-400' },
+            'out-export': { classes: 'bg-indigo-50 border-indigo-400 ring-2 ring-indigo-400' }
+        };
+        let selectedProductForModal = null;
+
+        // Live Weight Yield Calculator Function (Declared Globally)
+        window.updateYields = function(weight) {
+            const data = speciesData[currentSpecies];
+            if (!data) return;
+            const w = Math.max(data.minWeight, Math.min(data.maxWeight, parseFloat(weight) || data.defaultWeight));
+            optimizerLiveWeight = w;
+            const totalKgLabel = document.getElementById('total-kg-label');
+            if (totalKgLabel) totalKgLabel.textContent = `Нийт: ${w.toFixed(1)} кг`;
+
+            const carcassKg = w * (data.carcassPct / 100);
+            const bonelessKg = carcassKg * 0.82;
+            const boneKg = w * (data.bonePct / 100);
+            const offalKg = w * (data.offalPct / 100);
+            const hideKg = w * (data.hidePct / 100);
+            const otherKg = w * (data.otherPct / 100);
+            const bloodKg = w * 0.035;
+
+            const yc = document.getElementById('yield-carcass');
+            const yb = document.getElementById('yield-boneless');
+            const ybo = document.getElementById('yield-bone');
+            const yof = document.getElementById('yield-offal');
+            const yhi = document.getElementById('yield-hide');
+            const yot = document.getElementById('yield-other');
+            const ybl = document.getElementById('yield-blood');
+
+            if (yc) yc.textContent = `${carcassKg.toFixed(1)} кг`;
+            if (yb) yb.textContent = `Цул: ${bonelessKg.toFixed(1)} кг`;
+            if (ybo) ybo.textContent = `${boneKg.toFixed(1)} кг`;
+            if (yof) yof.textContent = `${offalKg.toFixed(1)} кг`;
+            if (yhi) yhi.textContent = `${hideKg.toFixed(1)} кг`;
+            if (yot) yot.textContent = `${otherKg.toFixed(1)} кг`;
+            if (ybl) ybl.textContent = `Цус: ${bloodKg.toFixed(1)} кг`;
+            renderOptimizerTable();
+        };
+
+        // Species Switcher Function (Declared Globally)
+        window.switchSpecies = function(speciesKey, btnElement) {
+            currentSpecies = speciesKey;
+            const data = speciesData[speciesKey];
+            if (!data) return;
+
+            updateLivestockPhoto(speciesKey);
+
+            // Update active state of species buttons
+            document.querySelectorAll('.species-btn').forEach(btn => {
+                btn.className = 'species-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center gap-2';
+            });
+            if (btnElement) {
+                btnElement.className = 'species-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white transition shadow-md flex items-center gap-2';
+            }
+
+            // Update Headings & Titles
+            document.getElementById('active-species-title').textContent = `${data.name}рийн бүтэн боловсруулалтын нэгдсэн систем`;
+            document.getElementById('main-heading').textContent = data.title;
+            document.getElementById('calc-section-title').textContent = data.calcTitle;
+            document.getElementById('optimizer-badge-text').textContent = data.optimizerName;
+            document.getElementById('slider-min-label').textContent = data.minLabel;
+            document.getElementById('slider-max-label').textContent = data.maxLabel;
+
+            // Update Calculator Inputs
+            const weightInput = document.getElementById('weight-input');
+            const weightSlider = document.getElementById('weight-slider');
+            if (weightInput && weightSlider) {
+                weightInput.min = data.minWeight;
+                weightInput.max = data.maxWeight;
+                weightInput.value = data.defaultWeight;
+                weightSlider.min = data.minWeight;
+                weightSlider.max = data.maxWeight;
+                weightSlider.value = data.defaultWeight;
+            }
+
+            updateYields(data.defaultWeight);
+        };
+
+        // Species Data Profiles
+        const speciesData = {
+            cattle: {
+                name: 'Үхэр',
+                title: 'ҮХРИЙН БҮТЭН БОЛОВСРУУЛАЛТЫН НЭГДСЭН СХЕМ',
+                subtitle: 'Түүхий эдийн бүрэн ашиглалт (100%) • Нэмүү өртөг 3–5 дахин',
+                calcTitle: 'Үхрийн амьдын жингийн түүхий эдийн гарц тооцоолуур',
+                minWeight: 250, maxWeight: 850, defaultWeight: 450,
+                minLabel: 'Бяруу (250кг)', maxLabel: 'Бух (850кг)',
+                carcassPct: 52.5, bonePct: 9.5, offalPct: 12.0, hidePct: 8.0, otherPct: 27.5,
+                carcassKg: 236.3, bonelessKg: 193.5, boneKg: 42.8, offalKg: 54.0, hideKg: 36.0, otherKg: 123.8, bloodKg: 15.8,
+                optimizerName: 'Макс-Профит Схем (Үхэр)',
+                optimizerRows: [
+                    { id: 'opt-meat', name: 'Гулууз мах (Цул + Өөх)', weightRatio: 0.43, primaryRevenue: 2150000, deepRevenue: 4850000, deepCost: 450000 },
+                    { id: 'opt-offal', name: 'Дотор эрхтэн & Дайвар', weightRatio: 0.12, primaryRevenue: 480000, deepRevenue: 1250000, deepCost: 200000 },
+                    { id: 'opt-hide', name: 'Арьс, шир & Хөөвөр', weightRatio: 0.08, primaryRevenue: 320000, deepRevenue: 1400000, deepCost: 300000 },
+                    { id: 'opt-bone', name: 'Яс, Эвэр, Туурай', weightRatio: 0.095, primaryRevenue: 150000, deepRevenue: 1850000, deepCost: 350000 },
+                    { id: 'opt-glands', name: 'Булчирхай & Цөс (Гиван)', weightRatio: 0.02, primaryRevenue: 100000, deepRevenue: 2100000, deepCost: 150000 }
+                ]
+            },
+            sheep: {
+                name: 'Хонь',
+                title: 'ХОНИНЫ БҮТЭН БОЛОВСРУУЛАЛТЫН НЭГДСЭН СХЕМ',
+                subtitle: 'Шим тэжээлтэй мах, чанарлаг нэхий, ноосны гүн боловсруулалт',
+                calcTitle: 'Хоний амьдын жингийн түүхий эдийн гарц тооцоолуур',
+                minWeight: 30, maxWeight: 110, defaultWeight: 55,
+                minLabel: 'Хурга (30кг)', maxLabel: 'Том хонь (110кг)',
+                carcassPct: 48.0, bonePct: 11.0, offalPct: 14.0, hidePct: 10.0, otherPct: 17.0,
+                carcassKg: 26.4, bonelessKg: 20.2, boneKg: 6.0, offalKg: 7.7, hideKg: 5.5, otherKg: 9.4, bloodKg: 2.2,
+                optimizerName: 'Макс-Профит Схем (Хонь)',
+                optimizerRows: [
+                    { id: 'opt-meat', name: 'Хонины гулууз мах', weightRatio: 0.42, primaryRevenue: 520000, deepRevenue: 980000, deepCost: 120000 },
+                    { id: 'opt-offal', name: 'Дотор эрхтэн & Толгой шийр', weightRatio: 0.14, primaryRevenue: 95000, deepRevenue: 240000, deepCost: 40000 },
+                    { id: 'opt-hide', name: 'Нэхий & Хонины ноос', weightRatio: 0.10, primaryRevenue: 40000, deepRevenue: 350000, deepCost: 80000 },
+                    { id: 'opt-bone', name: 'Яс & Эвэр', weightRatio: 0.11, primaryRevenue: 20000, deepRevenue: 280000, deepCost: 60000 },
+                    { id: 'opt-glands', name: 'Булчирхай & Дотоод эрхтэн', weightRatio: 0.03, primaryRevenue: 15000, deepRevenue: 320000, deepCost: 50000 }
+                ]
+            },
+            goat: {
+                name: 'Ямаа',
+                title: 'ЯМААНЫ БҮТЭН БОЛОВСРУУЛАЛТЫН НЭГДСЭН СХЕМ',
+                subtitle: 'Тансаг зэрэглэлийн ямааны ноолуур, мах, савхин бүтээгдэхүүн',
+                calcTitle: 'Ямааны амьдын жингийн түүхий эдийн гарц тооцоолуур',
+                minWeight: 25, maxWeight: 80, defaultWeight: 42,
+                minLabel: 'Ишиг (25кг)', maxLabel: 'Том ямаа (80кг)',
+                carcassPct: 45.0, bonePct: 12.0, offalPct: 15.0, hidePct: 11.0, otherPct: 17.0,
+                carcassKg: 18.9, bonelessKg: 14.1, boneKg: 5.0, offalKg: 6.3, hideKg: 4.6, otherKg: 7.2, bloodKg: 1.8,
+                optimizerName: 'Макс-Профит Схем (Ямаа)',
+                optimizerRows: [
+                    { id: 'opt-meat', name: 'Ямааны мах (Диетик)', weightRatio: 0.35, primaryRevenue: 350000, deepRevenue: 720000, deepCost: 90000 },
+                    { id: 'opt-offal', name: 'Дотор эрхтэн & Дайвар', weightRatio: 0.15, primaryRevenue: 80000, deepRevenue: 190000, deepCost: 30000 },
+                    { id: 'opt-hide', name: 'Ноолуур & Ямааны арьс', weightRatio: 0.11, primaryRevenue: 150000, deepRevenue: 1150000, deepCost: 150000 },
+                    { id: 'opt-bone', name: 'Яс & Эвэр', weightRatio: 0.12, primaryRevenue: 15000, deepRevenue: 220000, deepCost: 45000 },
+                    { id: 'opt-glands', name: 'Булчирхай ба фермент', weightRatio: 0.02, primaryRevenue: 10000, deepRevenue: 250000, deepCost: 40000 }
+                ]
+            },
+            camel: {
+                name: 'Тэмээ',
+                title: 'ТЭМЭЭНИЙ БҮТЭН БОЛОВСРУУЛАЛТЫН НЭГДСЭН СХЕМ',
+                subtitle: 'Өндөр чанартай тэмээний мах, ноос, өтгөн шир болон ховор эмийн түүхий эд',
+                calcTitle: 'Тэмээний амьдын жингийн түүхий эдийн гарц тооцоолуур',
+                minWeight: 200, maxWeight: 750, defaultWeight: 480,
+                minLabel: 'Ботго (200кг)', maxLabel: 'Аварга буураг (750кг)',
+                carcassPct: 50.0, bonePct: 13.0, offalPct: 11.0, hidePct: 9.0, otherPct: 17.0,
+                carcassKg: 240.0, bonelessKg: 185.0, boneKg: 62.4, offalKg: 52.8, hideKg: 43.2, otherKg: 81.6, bloodKg: 19.2,
+                optimizerName: 'Макс-Профит Схем (Тэмээ)',
+                optimizerRows: [
+                    { id: 'opt-meat', name: 'Тэмээний мах (Уураг өндөр)', weightRatio: 0.40, primaryRevenue: 1920000, deepRevenue: 4100000, deepCost: 400000 },
+                    { id: 'opt-offal', name: 'Дотор эрхтэн & Дайвар', weightRatio: 0.11, primaryRevenue: 420000, deepRevenue: 950000, deepCost: 150000 },
+                    { id: 'opt-hide', name: 'Тэмээний ноос & Зузаан шир', weightRatio: 0.09, primaryRevenue: 350000, deepRevenue: 1850000, deepCost: 250000 },
+                    { id: 'opt-bone', name: 'Яс & Бөхний өөх', weightRatio: 0.13, primaryRevenue: 250000, deepRevenue: 1950000, deepCost: 300000 },
+                    { id: 'opt-glands', name: 'Дотоод шүүрлийн булчирхай', weightRatio: 0.02, primaryRevenue: 80000, deepRevenue: 1600000, deepCost: 120000 }
+                ]
+            },
+            horse: {
+                name: 'Адуу',
+                title: 'АДУУНЫ БҮТЭН БОЛОВСРУУЛАЛТЫН НЭГДСЭН СХЕМ',
+                subtitle: 'Шим тэжээлтэй адууны мах, гүүний сүү, сор хялгас болон гүн боловсруулалт',
+                calcTitle: 'Адууны амьдын жингийн түүхий эдийн гарц тооцоолуур',
+                minWeight: 200, maxWeight: 650, defaultWeight: 400,
+                minLabel: 'Даага (200кг)', maxLabel: 'Сайн адуу (650кг)',
+                carcassPct: 53.0, bonePct: 10.0, offalPct: 12.0, hidePct: 7.0, otherPct: 18.0,
+                carcassKg: 212.0, bonelessKg: 168.0, boneKg: 40.0, offalKg: 48.0, hideKg: 28.0, otherKg: 72.0, bloodKg: 16.0,
+                optimizerName: 'Макс-Профит Схем (Адуу)',
+                optimizerRows: [
+                    { id: 'opt-meat', name: 'Адууны мах (Калори өндөр)', weightRatio: 0.42, primaryRevenue: 2100000, deepRevenue: 4500000, deepCost: 380000 },
+                    { id: 'opt-offal', name: 'Дотор эрхтэн & Цус', weightRatio: 0.12, primaryRevenue: 450000, deepRevenue: 1100000, deepCost: 160000 },
+                    { id: 'opt-hide', name: 'Адууны шир & Сор хялгас', weightRatio: 0.07, primaryRevenue: 280000, deepRevenue: 1450000, deepCost: 200000 },
+                    { id: 'opt-bone', name: 'Яс & Чөмөг', weightRatio: 0.10, primaryRevenue: 200000, deepRevenue: 1600000, deepCost: 250000 },
+                    { id: 'opt-glands', name: 'Булчирхай ба фермент', weightRatio: 0.02, primaryRevenue: 90000, deepRevenue: 1750000, deepCost: 130000 }
+                ]
+            }
+        };
+
+        const badgeStyles = {
+            food: 'bg-rose-100 text-rose-800 border-rose-200',
+            pharma: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+            cosmetic: 'bg-purple-100 text-purple-800 border-purple-200',
+            light: 'bg-sky-100 text-sky-800 border-sky-200',
+            agri: 'bg-amber-100 text-amber-800 border-amber-200'
+        };
+
+        // Complete Catalog Data (42 items with species tags)
+        const productsData = [
+            // FOOD (Хүнс)
+            {
+                id: 1,
+                name: 'Стейк ба Дээд зэргийн зөөлөн мах',
+                source: 'Гол мах (Tenderloin), Нурууны нарийн мах',
+                method: 'Хүйтний технологи: Ангилах, хуурай/нойтон сойлт, вакуум савлагаа',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'meat',
+                std: 'MNS 2456:2009, HACCP',
+                market: 'Өндөр зэрэглэлийн ресторан, сүлжээ дэлгүүр, экспорт (2.5–3x өгөөж)',
+                desc: 'Дээд зэргийн зөөлөн махыг стандартын дагуу шөрмөс, хальснаас цэвэрлэж сойсноор махны уураг ферментийн нөлөөгөөр зөөлөрч, амт үнэр нь дээд зэргээр баяждаг.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 2,
+                name: 'Ангилсан I, II, III зэргийн мах',
+                source: 'Гуя, сээр, өвчүү, дал, хавирга, шилбэ',
+                method: 'Хүйтний технологи: Эвдэж шулах, жинлэх, шок хөлдөөлт',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'meat',
+                std: 'MNS 2456:2009, HACCP',
+                market: 'Дотоодын хүнсний сүлжээ, нийтийн хоол',
+                desc: 'Гулууз махыг анатомийн бүтцээр нь ангилж, хэрэглээний зориулалтаар савлан шок хөлдөөлтөөр хадгална.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 3,
+                name: 'Уламжлалт ба Үйлдвэрийн борц',
+                source: 'Гуя, нуруу, далны өөхгүй цул мах',
+                method: 'Дулааны ба Хатаах технологи: Нарийн зүсэх, агааржуулан хатаах',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'meat',
+                std: 'MNS 5868:2008, HACCP',
+                market: 'Аялал жуулчлал, экспорт, онцгой нөөц',
+                desc: 'Цэвэр цул махнаас хийсэн өндөр уургийн агууламжтай, удаан хадгалагддаг үндэсний бүтээгдэхүүн.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 4,
+                name: 'Хиам, Зайдас, Утсан мах',
+                source: 'I, II зэргийн мах, өөх, амтлагч',
+                method: 'Дулааны технологи: Татах, куттерлэх, утах, чанах',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'meat',
+                std: 'MNS 1104:2017, HACCP',
+                market: 'Өргөн хэрэглээний зах зээл',
+                desc: 'Ангилсан махыг амтлагчтай хольж эмульс болгон бүрхүүлд шахаж утаж чадна.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 5,
+                name: 'Бууз, Банш, Бэлэн хоол',
+                source: 'Гуя, хүзүү, хавирганы мах, гурил',
+                method: 'Хүйтний технологи: Татах, хэлбэржүүлэх, шок гүн хөлдөөлт',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'meat',
+                std: 'MNS 4946:2015, HACCP',
+                market: 'Дотоодын зах зээл ба экспорт',
+                desc: 'Махыг зохистой харьцаагаар татаж амтлан автомат шугамаар чимхэж хөлдөөнө.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 6,
+                name: 'Цусан хиам',
+                source: 'Малын цэвэр цус, мах, өөх, гэдэс',
+                method: 'Дулааны технологи: Цус шүүх, холих, гэдсэнд чихэх, чанах',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'offal',
+                std: 'MNS 1104:2017, HACCP',
+                market: 'Үндэсний уламжлалт хүнс',
+                desc: 'Цусыг фибринээс шүүн жижиглэсэн өөх махтай хольж чанаж болгоно.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 7,
+                name: 'Ливер буюу Элэгний нухаш (Pâté)',
+                source: 'Элэг, уушги, зүрх, өөх',
+                method: 'Дулааны технологи: Бланширлах, нухашлах, автоклавт ариутгах',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'offal',
+                std: 'MNS 2997:2010, HACCP',
+                market: 'Нөөшилсөн хүнсний зах зээл',
+                desc: 'Элгийг дулааны аргаар болгоод коллоид тээрмээр нухаш болгон лаазалж ариутгана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 8,
+                name: 'Хиамны байгалийн бүрхүүл (Оболочка)',
+                source: 'Малын нарийн ба бүдүүн гэдэс',
+                method: 'Механик ба Физик-химийн: Салст хусах, угаах, давслах',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'offal',
+                std: 'INSCA стандарт',
+                market: 'Мах боловсруулах үйлдвэрүүд',
+                desc: 'Гэдэсний өөх, салст давхаргыг машинаар цэвэрлэж калибрлаж давсаар даршилна.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 9,
+                name: 'Өтгөрүүлсэн ясны шөл (Bone Broth)',
+                source: 'Чөмөгт яс, сүвээ, мөгөөрс',
+                method: 'Дулааны технологи: Өндөр даралтад хандлах, вакуум ууршуулах',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'bone',
+                std: 'HACCP, ISO 22000',
+                market: 'Эрүүл мэндийн хүнсний зах зээл',
+                desc: 'Ясыг буталж даралтад хандалснаар коллаген уусмалд шилжиж өтгөрүүлэгдэнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 10,
+                name: 'Хүнсний желатин',
+                source: 'Яс, шөрмөс, ширний халим',
+                method: 'Гидролиз ба Ферментийн: Хүчил/шүлтийн боловсруулалт, хандлах',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'bone',
+                std: 'FCC Хүнсний желатин стандарт',
+                market: 'Чихэр, мармелад, зайрмаг, эмийн капсул',
+                desc: 'Коллагеныг хэсэгчилсэн гидролизоор задалж тунгалаг хүнсний желатин гаргана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 11,
+                name: 'Царцаамаг (Цэлцэгнүүр) ба Чанасан хэл',
+                source: 'Толгой, шийр, борви, хэл',
+                method: 'Дулааны технологи: Хуйхлах, цэвэрлэх, удаан чанах, хөргөх',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'offal',
+                std: 'MNS 1104:2017, HACCP',
+                market: 'Баярын болон өдөр тутмын зууш',
+                desc: 'Коллагенаар баялаг шийр, толгойн махыг удаан чанаж байгалийн цэлцэгнүүр үүсгэнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 12,
+                name: 'Хүнсний өөх тос, чөмөгний тос',
+                source: 'Дотор өөх, чөмөгт яс',
+                method: 'Дулааны ба Механик: Хайлуулах, центрифугээр шүүх',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'bone',
+                std: 'MNS 0259:2014, HACCP',
+                market: 'Нарийн боов, хүнсний үйлдвэр',
+                desc: 'Дотор өөхийг вакуум орчинд хайлуулж сепаратораар шүүн тунгалаг тос гаргана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 13,
+                name: 'Бяслагны байгалийн хөрөнгө (Реннин)',
+                source: 'Малын ходоодны салст бүрхэвч',
+                method: 'Өндөр технологи ба Ферментийн: Экстракц, ультрафильтраци',
+                category: 'food',
+                catLabel: 'Хүнс',
+                anatomyGroup: 'offal',
+                std: 'ISO 11815',
+                market: 'Сүү, бяслагны үйлдвэрүүд',
+                desc: 'Ходоодны салстаас ялган авдаг хиимозин фермент нь сүүний казеин уургийг ээдүүлнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat'],
+            },
+
+            // PHARMA & BIOTECH (Эм, биотехнологи)
+            {
+                id: 14,
+                name: 'Инсулин ба Глюкагон тариа',
+                source: 'Малын нойр булчирхай (Pancreas)',
+                method: 'Өндөр технологи: Крио-хадгалалт, спирт-хүчлийн экстракц, HPLC',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'glands',
+                std: 'GMP, USP Фармакопей',
+                market: 'Чихрийн шижингийн эмчилгээний түүхий эд (5x+ өгөөж)',
+                desc: 'Нядалгааны дараа 15 минутын дотор гүн хөлдөөсөн булчирхайгаас инсулин ялгана.',
+                speciesTags: ['cattle', 'sheep', 'pig'],
+            },
+            {
+                id: 15,
+                name: 'Хоол боловсруулах эм (Панкреатин)',
+                source: 'Малын нойр булчирхай',
+                method: 'Өндөр технологи ба Ферментийн: Идэвхжүүлэх, вакуум хатаах',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'glands',
+                std: 'GMP, USP стандарт',
+                market: 'Фестал, Мезим эмийн түүхий эд',
+                desc: 'Нойр булчирхайнаас амилаза, липаза, протеаза ферментийн цогц панкреатин гаргана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 16,
+                name: 'Окситоцин ба Өсөлтийн даавар',
+                source: 'Малын өнчин тархи (Hypophysis)',
+                method: 'Өндөр технологи: Цууны хүчлийн экстракц, хроматографи',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'glands',
+                std: 'GMP Фармакопей',
+                market: 'Эх барихын болон мал эмнэлгийн бэлдмэл',
+                desc: 'Өнчин тархинаас окситоцин болон вазопрессин дааврыг ялган авна.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 17,
+                name: 'Тироксин ба Паратиреоидин',
+                source: 'Бамбай ба Иж бамбай булчирхай',
+                method: 'Өндөр технологи: Гидролиз, йодын стандартчилал',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'glands',
+                std: 'GMP, USP Стандарт',
+                market: 'Бамбай булчирхайн дутагдлын эмчилгээ',
+                desc: 'Бамбай булчирхайгаас тироксин дааврыг стандартын дагуу ялган авна.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 18,
+                name: 'Адреналин ба Кортикостероид',
+                source: 'Бөөрний дээд булчирхай',
+                method: 'Өндөр технологи: Азотын орчны экстракц, талстжуулалт',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'glands',
+                std: 'GMP Фармакопей',
+                market: 'Яаралтай тусламжийн амь аврах тариа',
+                desc: 'Бөөрний дээд булчирхайгаас адреналин дааврыг хүчилтөрөгчгүй орчинд ялгана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 19,
+                name: 'Гепарин (Цус шингэлэгч тариа)',
+                source: 'Уушги ба нарийн гэдэсний салст бүрхэвч',
+                method: 'Өндөр технологи: Ферментийн задрал, ион солилцооны давирхай',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'offal',
+                std: 'GMP, USP Heparin Sodium',
+                market: 'Зүрх судас, мэс заслын цус шингэлэгч (өндөр эрэлттэй)',
+                desc: 'Уушги болон нарийн гэдэсний салстад агуулагдах гепариныг ферментаар ялгана.',
+                speciesTags: ['cattle', 'sheep', 'pig'],
+            },
+            {
+                id: 20,
+                name: 'Цөсний чулуу хайлуулах эм (УДХХ)',
+                source: 'Малын шингэн цөс',
+                method: 'Өндөр технологи: Шүлтийн гидролиз, талстжуулалт',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'offal',
+                std: 'GMP, EP Фармакопей',
+                market: 'Элэг цөсний эм (Урсофальк, Аллохол)',
+                desc: 'Цөсний хүүдийг шүүн өтгөрүүлж урсодеоксихолийн хүчил ялган авна.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 21,
+                name: 'Гиван (Уламжлалт анагаах ухаан)',
+                source: 'Үхрийн цөсний чулуу (Calculus Bovis)',
+                method: 'Хүйтний технологи: Сүүдэрт агааржуулан хатаах, ариутгах',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'glands',
+                std: 'Уламжлалт анагаахын стандарт',
+                market: 'Дэлхийн хамгийн үнэтэй амьтны гаралтай эмийн түүхий эд',
+                desc: 'Цөсний чулууг сэрүүн орчинд зөөлөн хатааж эмчилгээний гиван бэлтгэнэ.',
+                speciesTags: ['cattle'],
+            },
+            {
+                id: 22,
+                name: 'Церебролизин ба Лецитин',
+                source: 'Малын тархи болон нугас',
+                method: 'Өндөр технологи: Ферментийн задрал, ультрафильтраци',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'glands',
+                std: 'GMP Эмийн стандарт',
+                market: 'Мэдрэлийн эс сэргээх эмчилгээний бэлдмэл',
+                desc: 'Тархины уургийг ферментийн гидролизоор задалж нейропептид гаргана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 23,
+                name: 'Кетгут (Хайлдаг мэс заслын утас)',
+                source: 'Малын нарийн гэдэсний булчинлаг давхарга',
+                method: 'Механик ба Өндөр технологи: Туузлах, эрчлэх, гамма ариутгал',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'offal',
+                std: 'USP Absorbable Suture',
+                market: 'Мэс заслын болон мал эмнэлгийн хэрэгсэл',
+                desc: 'Нарийн гэдэсний цэвэр коллагеныг нарийн тууз болгон эрчлэн мэс заслын утас хийнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat'],
+            },
+            {
+                id: 24,
+                name: 'Лидаза (Сорви зөөлрүүлэх фермент)',
+                source: 'Эр малын бэлгийн булчирхай (Засаа)',
+                method: 'Өндөр технологи: Хүчлийн экстракц, лиофилизаци',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'glands',
+                std: 'GMP Эмийн стандарт',
+                market: 'Түлэнхий, сорви эмчлэх гоо сайхны тариа',
+                desc: 'Бэлгийн булчирхайнаас гиалуронидаза фермент ялган лиофилизациар нунтаглана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 25,
+                name: 'Гематоген ба Кальци бэлдмэл',
+                source: 'Малын хүнсний цус, элэг, яс',
+                method: 'Дулааны ба Гидролиз: Шүршиж хатаах, эрдэс боловсруулах',
+                category: 'pharma',
+                catLabel: 'Эм, биотехнологи',
+                anatomyGroup: 'offal',
+                std: 'GMP стандарт',
+                market: 'Цус багадалт ба яс сийрэгжилтээс сэргийлэх бэлдмэл',
+                desc: 'Цусны эсээс ялгасан альбуминыг хатааж гематоген ба кальцийн бэлдмэл хийнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+
+            // COSMETICS (Гоо сайхан)
+            {
+                id: 26,
+                name: 'Гидролизжүүлсэн коллаген пептид',
+                source: 'Яс, ширний халим, шөрмөс',
+                method: 'Гидролиз ба Ферментийн: Энзимийн задрал, шүршиж хатаах',
+                category: 'cosmetic',
+                catLabel: 'Гоо сайхан',
+                anatomyGroup: 'bone',
+                std: 'ISO 22716 (Cosmetic GMP)',
+                market: 'Уудаг коллаген, гоо сайхны экспорт (5x өгөөж)',
+                desc: 'Коллаген уургийг тусгай протеаза ферментээр бичил пептид болгон задална.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 27,
+                name: 'Арьс чангалах тос, маск, ийлдэс',
+                source: 'Ширний халимнаас ялгасан натив коллаген',
+                method: 'Өндөр технологи: Нам температурын экстракц, вакуум эмульс',
+                category: 'cosmetic',
+                catLabel: 'Гоо сайхан',
+                anatomyGroup: 'hide',
+                std: 'ISO 22716 Гоо сайхны стандарт',
+                market: 'Хөгшрөлтийн эсрэг арьс арчилгаа',
+                desc: 'Нам температурт ялгасан гурвалсан спираль бүтэцтэй коллаген нь арьсыг чийгшүүлнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 28,
+                name: 'Кератин уурагтай шампунь, маск',
+                source: 'Малын эвэр, туурай, ноосны хаягдал',
+                method: 'Гидролиз ба Ферментийн: Кератин уураг задлах, шүүх',
+                category: 'cosmetic',
+                catLabel: 'Гоо сайхан',
+                anatomyGroup: 'bone',
+                std: 'ISO 22716 стандарт',
+                market: 'Үс арчилгааны мэргэжлийн салон, шампунь',
+                desc: 'Эвэр болон туурайнаас цистеин амин хүчлээр баялаг шингэн кератин гаргана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 29,
+                name: 'Гиалуроны хүчил ба Нүдний дусаалга',
+                source: 'Нүдний шилэнцэр бие ба эвэрлэг бүрхэвч',
+                method: 'Өндөр технологи: Крио-ялгалт, мембран шүүлт',
+                category: 'cosmetic',
+                catLabel: 'Гоо сайхан',
+                anatomyGroup: 'glands',
+                std: 'GMP / ISO 13485',
+                market: 'Дээд зэрэглэлийн гоо сайхан, нүдний хуурайшилтын дусаалга',
+                desc: 'Нүдний шилэнцэр биеэс ялган авсан гиалуроны хүчил нь арьсыг гүн чийгшүүлнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+
+            // LIGHT INDUSTRY & TECHNICAL (Хөнгөн үйлдвэр & Техник)
+            {
+                id: 30,
+                name: 'Савхин хүрэм, дээл, гоёлын бээлий',
+                source: 'Тугал, ямаа, хонины нэхий ба арьс',
+                method: 'Механик ба Физик-химийн: Зөөлөн идээлэг, будах, тослох',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'hide',
+                std: 'ISO 17235 стандарт',
+                market: 'Хувцас загвар, бээлий, экспортын савхи',
+                desc: 'Тугал болон жижиг малын арьсыг зөөлөн идээлж хувцас хийхэд бэлтгэнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat'],
+            },
+            {
+                id: 31,
+                name: 'Гутал, Цүнх, Бүс, Автомашины бүрээс',
+                source: 'Үнээ, адуу, тэмээний дунд зэргийн шир',
+                method: 'Механик ба Физик-химийн: Идээлэг, хээ дарах',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'hide',
+                std: 'MNS 0264:2011, ISO 5402',
+                market: 'Гутал, цүнх, автомашины салон бүрээс',
+                desc: 'Дунд зэргийн ширийг урагдалт даах чадвартайгаар идээлж боловсруулна.',
+                speciesTags: ['cattle', 'camel', 'horse'],
+            },
+            {
+                id: 32,
+                name: 'Гутлын ул, Эмээл хазаар, Ремень',
+                source: 'Бух, тэмээ, адууны зузаан шир',
+                method: 'Механик ба Физик-химийн: Танины хатуу идээлэг, сур элдэх',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'hide',
+                std: 'MNS 0265:2011 стандарт',
+                market: 'Монгол гутал, эмээл хазаар, морин спортын хэрэгсэл',
+                desc: 'Зузаан ширийг ургамлын танинаар идээлэх эсвэл сур элдэж тасрахгүй бат бөх болгоно.',
+                speciesTags: ['cattle', 'camel', 'horse'],
+            },
+            {
+                id: 33,
+                name: 'Ноос, Ноолуур, Хөөвөр ба Сүлжмэл',
+                source: 'Хонины ноос, ямааны ноолуур, тэмээний ноос, сарлагийн хөөвөр',
+                method: 'Механик ба Физик-химийн: Угаах, хялгас ялгах, ээрэх, сүлжих',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'hide',
+                std: 'MNS стандарт',
+                market: 'Ноолуур, ноосон бүтээгдэхүүн, дулаалга',
+                desc: 'Монгол малын ноос, ноолуур, хөөврийг угааж самнан тансаг сүлжмэл хийнэ.',
+                speciesTags: ['sheep', 'goat', 'camel', 'cattle'],
+            },
+            {
+                id: 34,
+                name: 'Морин хуурын хялгас, Сойз, Татлага',
+                source: 'Адууны дэл, сүүлний урт хялгас',
+                method: 'Механик ба Физик-химийн: Угаах, ариутгах, ангилах',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'hide',
+                std: 'Үндэсний хөгжмийн зэмсгийн стандарт',
+                market: 'Морин хуур, хийлийн нум, багс, татлага',
+                desc: 'Адууны дэл, сүүлний урт хялгасыг морин хуурын чавхдас болон нумд ашиглана.',
+                speciesTags: ['horse'],
+            },
+            {
+                id: 35,
+                name: 'Ясан шаазан (Bone China)',
+                source: 'Тосгүйжүүлж шатаасан малын ясны үнс',
+                method: 'Дулааны ба Механик: 1000°C-т шатаах, тээрэмдэх, цутгах',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'bone',
+                std: 'Bone China стандарт (≥40% ясны үнс)',
+                market: 'Дээд зэрэглэлийн тансаг аяга таваг, экспорт',
+                desc: 'Шаазангийн шаварт ясны үнс хольж шатааснаар гэрэл нэвтэрдэг шаазан болно.',
+                speciesTags: ['cattle', 'camel', 'horse', 'sheep'],
+            },
+            {
+                id: 36,
+                name: 'Гал унтраах уурагт хөөс (Protein foam)',
+                source: 'Эвэр, туурай, хялгасны кератин',
+                method: 'Гидролиз ба Физик-химийн: Шүлтийн гидролиз, холих',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'bone',
+                std: 'EN 1568 Гал унтраах стандарт',
+                market: 'Нефть бааз, нисэх буудал, онцгой байдал',
+                desc: 'Кератиныг шүлтийн гидролизоор задалж гал унтраах уурагт хөөс гаргана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 37,
+                name: 'Техникийн альбумин ба Цавуу',
+                source: 'Цусны сийвэн, яс, туурай',
+                method: 'Механик ба Физик-химийн: Центрифуг ялгалт, хатаах',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'bone',
+                std: 'Техникийн цавууны стандарт',
+                market: 'Мод боловсруулах, фанер хавтан, тавилга',
+                desc: 'Цусны сийвэнгээс альбумин гаргаж фанер хавтангийн барьцалдуулагч болгоно.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 38,
+                name: 'Сам, Товч, Хутганы иш, Эвэр нум',
+                source: 'Малын эвэр, чөмөгт яс',
+                method: 'Механик ба Дулааны: Халааж тэнийлгэх, сийлэх, өнгөлөх',
+                category: 'light',
+                catLabel: 'Хөнгөн үйлдвэр',
+                anatomyGroup: 'bone',
+                std: 'Гар урлалын стандарт',
+                market: 'Бэлэг дурсгал, үндэсний сур харвааны нум, сам',
+                desc: 'Эврийг халааж хавтгайлан үсний сам, хувцасны товч, нумны элэг урлана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel'],
+            },
+
+            // AGRICULTURE & FEED (Хөдөө аж ахуй / Тэжээл)
+            {
+                id: 39,
+                name: 'Малын тэжээлийн ясны гурил',
+                source: 'Тосгүйжүүлсэн яс, мөгөөрс',
+                method: 'Дулааны ба Механик: Автоклавт ариутгах, нунтаглах',
+                category: 'agri',
+                catLabel: 'Тэжээл ба Бордоо',
+                anatomyGroup: 'bone',
+                std: 'MNS 3588:2008 Эрдэс тэжээлийн стандарт',
+                market: 'Саалийн үнээ, гахай, шувууны тэжээлийн үйлдвэрүүд',
+                desc: 'Тосгүйжүүлсэн ясыг автоклавт ариутгаж нунтагласнаар кальцийн баяжмал болно.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 40,
+                name: 'Цусан гурил ба Дайврын уургийн тэжээл',
+                source: 'Техникийн цус, хүнсэнд үл хэрэглэх дайвар',
+                method: 'Дулааны ба Механик: Коагуляци, шахах, хатаах',
+                category: 'agri',
+                catLabel: 'Тэжээл ба Бордоо',
+                anatomyGroup: 'offal',
+                std: 'MNS 3589:2008 Уурагт тэжээлийн стандарт',
+                market: 'Шувуу, гахай, загасны аж ахуйн тэжээл',
+                desc: 'Цус болон дайврын уургийг уураар бүлэгнүүлэн шүүж хатааж уурагт тэжээл гаргана.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 41,
+                name: 'Азот-фосфорын органик бордоо',
+                source: 'Туурай, эврийн үртэс, богино үс, яс',
+                method: 'Дулааны ба Механик: Уураар зөөлрүүлэх, үрэлжүүлэх',
+                category: 'agri',
+                catLabel: 'Тэжээл ба Бордоо',
+                anatomyGroup: 'bone',
+                std: 'Органик бордооны стандарт',
+                market: 'Органик хүнсний ногоо, хүлэмжийн аж ахуй',
+                desc: 'Туурай, үс, эврийн кератиныг уураар боловсруулж үрэл хэлбэртэй бордоо хийнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            },
+            {
+                id: 42,
+                name: 'Нохойн зажлуур (Pet treats)',
+                source: 'Туурай, шөрмөс, чих, шийр, арьсны өөдөс',
+                method: 'Дулааны ба Хатаах: Цэвэрлэх, ариутгах, удаан хатаах',
+                category: 'agri',
+                catLabel: 'Тэжээл ба Бордоо',
+                anatomyGroup: 'bone',
+                std: 'AAFCO / FEDIAF Pet Food стандарт',
+                market: 'Америк, Европ, Азийн гэрийн тэжээвэр амьтдын зах зээл',
+                desc: 'Туурай, чих, шөрмөсийг ариутган удаан хатааж нохойны байгалийн зажлуур хийнэ.',
+                speciesTags: ['cattle', 'sheep', 'goat', 'camel', 'horse'],
+            }
+        ];
+
+        // ---------------------------------------------------------
+        // VALUE CHAIN FLOW DIAGRAM (4 STAGES) WITH ANIMATED SVG CONNECTIONS
+        // ---------------------------------------------------------
+        const flowNodeDetails = {
+            'prep-inspect': { badge: 'Шат 1.1', title: 'Хүлээн авах, мал эмнэлгийн шалгалт & Ариутгал', desc: 'Мал эмнэлэг-ариун цэврийн үзлэг, угаалга, HACCP стандартын дагуу халдваргүйжүүлэлт хийнэ.', metrics: ['Стандарт: HACCP', 'Гарал үүсэл: 100% хяналт'] },
+            'prep-grade': { badge: 'Шат 1.2', title: 'Эвдэж ангилах (MNS стандарт)', desc: 'Гулуузыг үе мөч, нугалам, хавиргаар нь салгаж зэрэглэлээр ангилна.', metrics: ['Стандарт: MNS', 'Ангилал: Зэрэглэлээр'] },
+            'prep-cold': { badge: 'Шат 1.3', title: 'Хөргөлт (0..+4°C) ба Гүн хөлдөөлт (-25°C)', desc: 'Махыг сэврээж хөргөх, булчирхайг -25°C-т гүн хөлдөөж биологийн идэвхийг хадгална.', metrics: ['Мах: 0..+4°C', 'Булчирхай: -25°C'] },
+            'raw-meat': { badge: 'Шат 2.1', title: 'Гулууз мах & Өөх тос', desc: 'Цул мах, өөх, чанарлаг гулуузны хэсэг.', metrics: ['Ашиглалт: Хүнс, Стейк, Борц'] },
+            'raw-offal': { badge: 'Шат 2.2', title: 'Дотор эрхтэн & Цус', desc: 'Таван цул, зургаан сав, цус.', metrics: ['Ашиглалт: Хүнс, Хиам, Паштет'] },
+            'raw-hide': { badge: 'Шат 2.3', title: 'Арьс, шир, Ноос, Ноолуур', desc: 'Зузаан/нарийн шир, хонины ноос, ямааны ноолуур, хялгас.', metrics: ['Ашиглалт: Савхи, Сүлжмэл'] },
+            'raw-bone': { badge: 'Шат 2.4', title: 'Яс, Эвэр, Туурай & Шөрмөс', desc: 'Чөмөгт яс, кератин, коллагенлаг шөрмөс.', metrics: ['Ашиглалт: Коллаген, Желатин'] },
+            'raw-glands': { badge: 'Шат 2.5', title: 'Дотоод шүүрлийн булчирхай', desc: 'Нойр, өнчин тархи, гиван, цөс.', metrics: ['Үнэ цэнэ: Эм, биотехнологи'] },
+            'tech-cold': { badge: 'Шат 3.1', title: 'Хүйтний технологи', desc: 'Сойлт (Aging), гүн хөлдөөлт, шок хөлдөөгч камерын горим.', metrics: ['Хэв шинж: Махны чанар хадгалалт'] },
+            'tech-thermal': { badge: 'Шат 3.2', title: 'Дулааны технологи', desc: 'Чанах, утах, хатаах (борц), лаазлах автоклав.', metrics: ['Хэв шинж: Бэлэн бүтээгдэхүүн'] },
+            'tech-mech': { badge: 'Шат 3.3', title: 'Механик & Физик-химийн технологи', desc: 'Идээлэх, ноос угаах, самнах, ээрэх, зүсэх.', metrics: ['Хэв шинж: Хөнгөн үйлдвэр'] },
+            'tech-hydro': { badge: 'Шат 3.4', title: 'Гидролиз & Ферментийн технологи', desc: 'Коллаген задаргаа, желатин, реннин фермент гаргах.', metrics: ['Хэв шинж: Гүн боловсруулалт'] },
+            'tech-biotech': { badge: 'Шат 3.5', title: 'Өндөр технологи & Биотехнологи', desc: 'Инсулин, гепарин, крио-экстракц, хроматографи.', metrics: ['Хэв шинж: Өндөр өгөөж (5x+)'] },
+            'out-food': { badge: 'Шат 4.1', title: 'Хүнсний бүтээгдэхүүний зах зээл', desc: 'Стейк, хиам, бууз, борц, желатин, ясны бульон.', metrics: ['Зах зээл: Өргөн хэрэглээ'] },
+            'out-pharma': { badge: 'Шат 4.2', title: 'Эм, биотехнологийн салбар', desc: 'Инсулин, панкреатин, гепарин, кетгут, гиван.', metrics: ['Зах зээл: Эмийн үйлдвэр'] },
+            'out-cosmetic': { badge: 'Шат 4.3', title: 'Гоо сайхны салбар', desc: 'Коллаген пептид, арьс арчилгаа, кератин шампунь.', metrics: ['Зах зээл: Косметик бренд'] },
+            'out-light': { badge: 'Шат 4.4', title: 'Хөнгөн үйлдвэрийн салбар', desc: 'Савхин хүрэм, гутал, ноолуур, ясан шаазан.', metrics: ['Зах зээл: Үндэсний үйлдвэр'] },
+            'out-feed': { badge: 'Шат 4.5', title: 'Тэжээл ба Бордоо', desc: 'Ясны гурил, цусан гурил, органик бордоо, pet treats.', metrics: ['Зах зээл: ХАА ба тэжээл'] },
+            'out-export': { badge: 'Шат 4.6', title: 'Экспорт (Гадаад зах зээл)', desc: 'Дулааны мах, пептид, гиван, үслэг эдлэл.', metrics: ['Зах зээл: Валютын орлого'] }
+        };
+
+        const visualEdges = [
+            ['prep-inspect', 'raw-meat', '#f43f5e'],
+            ['prep-inspect', 'raw-offal', '#10b981'],
+            ['prep-grade', 'raw-hide', '#0ea5e9'],
+            ['prep-grade', 'raw-bone', '#f59e0b'],
+            ['prep-cold', 'raw-glands', '#a855f7'],
+
+            ['raw-meat', 'tech-cold', '#f43f5e'],
+            ['raw-meat', 'tech-thermal', '#f43f5e'],
+            ['raw-offal', 'tech-thermal', '#10b981'],
+            ['raw-hide', 'tech-mech', '#0ea5e9'],
+            ['raw-bone', 'tech-hydro', '#f59e0b'],
+            ['raw-glands', 'tech-biotech', '#a855f7'],
+
+            ['tech-cold', 'out-food', '#f43f5e'],
+            ['tech-thermal', 'out-food', '#f43f5e'],
+            ['tech-thermal', 'out-export', '#6366f1'],
+            ['tech-mech', 'out-light', '#0ea5e9'],
+            ['tech-hydro', 'out-cosmetic', '#a855f7'],
+            ['tech-hydro', 'out-feed', '#f59e0b'],
+            ['tech-biotech', 'out-pharma', '#10b981'],
+            ['tech-biotech', 'out-export', '#6366f1']
+        ];
+
+        const svgLayer = document.getElementById('flow-svg-layer');
+        const flowWrapper = document.getElementById('flow-diagram-wrapper');
+
+        function drawFlowLines() {
+            if (!svgLayer || !flowWrapper) return;
+            svgLayer.innerHTML = '';
+            const wrapperRect = flowWrapper.getBoundingClientRect();
+
+            visualEdges.forEach(([fromId, toId, color]) => {
+                const fromEl = document.querySelector(`[data-node="${fromId}"]`);
+                const toEl = document.querySelector(`[data-node="${toId}"]`);
+                if (!fromEl || !toEl) return;
+
+                const r1 = fromEl.getBoundingClientRect();
+                const r2 = toEl.getBoundingClientRect();
+
+                const x1 = r1.right - wrapperRect.left;
+                const y1 = r1.top + r1.height / 2 - wrapperRect.top;
+                const x2 = r2.left - wrapperRect.left;
+                const y2 = r2.top + r2.height / 2 - wrapperRect.top;
+
+                const dx = (x2 - x1) * 0.5;
+                const pathData = `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', pathData);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', color);
+                path.setAttribute('stroke-width', '2.5');
+                path.setAttribute('stroke-opacity', '0.4');
+                path.setAttribute('data-from', fromId);
+                path.setAttribute('data-to', toId);
+                svgLayer.appendChild(path);
+            });
+        }
+
+        setTimeout(drawFlowLines, 200);
+        window.addEventListener('resize', drawFlowLines);
+
+        function selectFlowMarket(nodeId) {
+            const market = flowMarkets[nodeId] ? nodeId : null;
+            if (activeFlowMarket === market) return;
+            activeFlowMarket = market;
+            document.querySelectorAll('.flow-node[aria-pressed]').forEach(node => {
+                node.setAttribute('aria-pressed', String(node.dataset.node === market));
+            });
+            renderProducts();
+        }
+
+        document.querySelectorAll('.flow-node').forEach(node => {
+            const nId = node.dataset.node;
+            if (flowMarkets[nId]) {
+                node.setAttribute('role', 'button');
+                node.setAttribute('aria-pressed', 'false');
+                node.tabIndex = 0;
+                node.addEventListener('keydown', event => {
+                    if (event.key !== 'Enter' && event.key !== ' ') return;
+                    event.preventDefault();
+                    node.click();
+                });
+            }
+
+            node.addEventListener('click', () => {
+                const info = flowNodeDetails[nId];
+                if (!info) return;
+                selectFlowMarket(nId);
+                document.getElementById('inspector-badge').textContent = info.badge;
+                document.getElementById('inspector-title').textContent = info.title;
+                document.getElementById('inspector-desc').textContent = info.desc;
+                document.getElementById('inspector-metrics').innerHTML = info.metrics.map(m =>
+                    `<span class="px-3 py-1.5 rounded-xl bg-slate-800 text-xs font-semibold text-emerald-400 border border-slate-700">${m}</span>`
+                ).join('');
+
+                // Highlight connected paths
+                svgLayer.querySelectorAll('path').forEach(p => {
+                    const f = p.getAttribute('data-from');
+                    const t = p.getAttribute('data-to');
+                    if (f === nId || t === nId) {
+                        p.setAttribute('stroke-opacity', '1');
+                        p.setAttribute('stroke-width', '3.5');
+                        p.classList.add('flow-line-active');
+                    } else {
+                        p.setAttribute('stroke-opacity', '0.15');
+                        p.classList.remove('flow-line-active');
+                    }
+                });
+            });
+        });
+
+        const resetFlowBtn = document.getElementById('reset-flow-btn');
+        if (resetFlowBtn) {
+            resetFlowBtn.addEventListener('click', () => {
+                selectFlowMarket(null);
+                svgLayer.querySelectorAll('path').forEach(p => {
+                    p.setAttribute('stroke-opacity', '0.4');
+                    p.setAttribute('stroke-width', '2.5');
+                    p.classList.remove('flow-line-active');
+                });
+                document.getElementById('inspector-badge').textContent = 'Заавар';
+                document.getElementById('inspector-title').textContent = 'Технологийн дамжлагын үе шат дээр дарна уу';
+                document.getElementById('inspector-desc').textContent = 'Аль ч шатны үйл явц дээр дарж хоорондын уялдаа холбоо, технологийн горимыг амьд зургаар харна уу.';
+            });
+        }
+
+        // Tab Switching for Combined Block
+        window.switchProcessTab = function(tabName) {
+            const flowTab = document.getElementById('process-tab-flow');
+            const profitTab = document.getElementById('process-tab-profit');
+            const btnFlow = document.getElementById('tab-btn-flow');
+            const btnProfit = document.getElementById('tab-btn-profit');
+
+            if (tabName === 'flow') {
+                flowTab.classList.remove('hidden');
+                profitTab.classList.add('hidden');
+                btnFlow.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-900 text-white transition shadow-sm flex items-center gap-2';
+                btnProfit.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-slate-600 hover:text-slate-900 transition flex items-center gap-2';
+                setTimeout(drawFlowLines, 100);
+            } else {
+                flowTab.classList.add('hidden');
+                profitTab.classList.remove('hidden');
+                btnProfit.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-amber-500 text-slate-950 transition shadow-sm flex items-center gap-2';
+                btnFlow.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-slate-600 hover:text-slate-900 transition flex items-center gap-2';
+            }
+        };
+
+        // ---------------------------------------------------------
+        // MAX-PROFIT SCHEME OPTIMIZER LOGIC
+        // ---------------------------------------------------------
+
+
+        const stageGuide = document.getElementById('optimizer-stage-guide');
+        const stageTips = stageGuide.querySelectorAll('[role="tooltip"]');
+        function closeStageTips() {
+            stageTips.forEach(tip => { tip.hidden = true; });
+        }
+        stageGuide.querySelectorAll('.optimizer-stage').forEach(stage => {
+            const help = stage.querySelector('button');
+            const tip = stage.querySelector('[role="tooltip"]');
+            function showTip() {
+                closeStageTips();
+                tip.hidden = false;
+            }
+            help.addEventListener('pointerenter', event => {
+                if (event.pointerType === 'mouse') showTip();
+            });
+            stage.addEventListener('pointerleave', event => {
+                if (event.pointerType === 'mouse' && document.activeElement !== help) tip.hidden = true;
+            });
+            help.addEventListener('focus', showTip);
+            help.addEventListener('blur', () => { tip.hidden = true; });
+            help.addEventListener('click', showTip);
+        });
+        document.addEventListener('pointerdown', event => {
+            if (!stageGuide.contains(event.target)) closeStageTips();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closeStageTips();
+        });
+
+        const optimizerLevels = [
+            { name: 'Анхан', depth: 0, costFactor: 0.30 },
+            { name: 'Дунд', depth: 0.5, costFactor: 0.65 },
+            { name: 'Гүн', depth: 1, costFactor: 1 },
+            { name: 'Өндөр технологи', costFactor: 1.60, manualRevenue: true }
+        ];
+        const optimizerData = new Map();
+        const optimizerBody = document.getElementById('optimizer-rows-container');
+        const optimizerMoney = new Intl.NumberFormat('mn-MN', { maximumFractionDigits: 0 });
+        let optimizerLiveWeight = 450;
+
+        function optimizerRowsForSpecies() {
+            if (!optimizerData.has(currentSpecies)) {
+                const data = speciesData[currentSpecies];
+                const rows = data.optimizerRows.map(row => ({
+                    ...row,
+                    referenceKg: data.defaultWeight * row.weightRatio,
+                    level: 0
+                }));
+                rows.push({
+                    name: 'Сүү (тусдаа орц)', referenceKg: 1, kilograms: 0,
+                    primaryRevenue: 4000, deepRevenue: 7800, deepCost: 2400, level: 0
+                });
+                optimizerData.set(currentSpecies, rows);
+            }
+            return optimizerData.get(currentSpecies);
+        }
+
+        function optimizerRowResult(row, selectedLevel = row.level) {
+            const level = optimizerLevels[selectedLevel];
+            const kg = row.kilograms ?? optimizerLiveWeight * row.weightRatio;
+            const factor = kg / row.referenceKg;
+            const cost = Math.round(factor * row.deepCost * level.costFactor);
+            let revenue = 0;
+            if (kg > 0) {
+                if (level.manualRevenue) {
+                    revenue = row.manualRevenue ?? null;
+                } else {
+                    const referenceRevenue = row.primaryRevenue + (row.deepRevenue - row.primaryRevenue) * level.depth;
+                    revenue = Math.round(factor * referenceRevenue);
+                }
+            }
+            return { kg, cost, revenue, margin: revenue === null ? null : revenue - cost };
+        }
+
+        function formatOptimizerMoney(amount) {
+            return optimizerMoney.format(amount) + ' ₮';
+        }
+
+        function renderOptimizerTable() {
+            optimizerBody.innerHTML = optimizerRowsForSpecies().map((row, index) => {
+                const result = optimizerRowResult(row);
+                const levelOptions = optimizerLevels.map((level, value) =>
+                    '<option value="' + value + '"' + (value === row.level ? ' selected' : '') + '>' +
+                    level.name + '</option>').join('');
+                const quantity = row.kilograms === undefined
+                    ? result.kg.toFixed(1) + ' кг'
+                    : '<input type="number" min="0" step="any" inputmode="decimal" data-milk-kg aria-label="Сүүний жин, кг" value="' +
+                        row.kilograms + '" class="w-20 rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-white"> кг';
+                const revenueInput = optimizerLevels[row.level].manualRevenue
+                    ? '<input type="number" min="0" step="1" inputmode="numeric" placeholder="Дүн оруулах" data-revenue-index="' + index +
+                        '" aria-label="' + row.name + ' — борлуулалтын нийт дүн, төгрөг" value="' + (row.manualRevenue ?? '') +
+                        '" class="w-32 rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-right text-white"> ₮'
+                    : '';
+                return '<tr class="align-middle hover:bg-slate-800/50"><th scope="row" class="px-4 py-3 text-white">' + row.name + '</th>' +
+                    '<td class="px-4 py-3 text-slate-300 whitespace-nowrap">' + quantity + '</td>' +
+                    '<td class="p-2"><select data-index="' + index + '" data-opt="level" aria-label="' + row.name +
+                    ' — боловсруулах түвшин" class="max-w-56 rounded-lg border border-slate-600 bg-slate-950 p-1.5 text-white">' +
+                    levelOptions + '</select></td><td class="px-4 py-3 text-right text-amber-300 whitespace-nowrap" id="opt-cost-' + index + '"></td>' +
+                    '<td class="px-4 py-3 text-right text-emerald-300 whitespace-nowrap" id="opt-revenue-' + index + '">' + revenueInput + '</td>' +
+                    '<td class="px-4 py-3 text-right font-semibold whitespace-nowrap" id="opt-margin-' + index + '"></td></tr>';
+            }).join('');
+            calculateOptimizerTotals();
+        }
+
+        function calculateOptimizerTotals() {
+            let weight = 0;
+            let cost = 0;
+            let revenue = 0;
+            let pending = 0;
+            optimizerRowsForSpecies().forEach((row, index) => {
+                const result = optimizerRowResult(row);
+                weight += result.kg;
+                cost += result.cost;
+                if (result.revenue === null) pending++;
+                else revenue += result.revenue;
+                document.getElementById('opt-cost-' + index).textContent = formatOptimizerMoney(result.cost);
+                if (!optimizerLevels[row.level].manualRevenue) {
+                    document.getElementById('opt-revenue-' + index).textContent = formatOptimizerMoney(result.revenue);
+                }
+                const margin = document.getElementById('opt-margin-' + index);
+                margin.textContent = result.margin === null ? '—' : formatOptimizerMoney(result.margin);
+                margin.classList.toggle('text-rose-300', result.margin < 0);
+            });
+            const margin = revenue - cost;
+            document.getElementById('opt-total-weight').textContent = weight.toFixed(1) + ' кг';
+            document.getElementById('opt-total-cost').textContent = formatOptimizerMoney(cost);
+            document.getElementById('opt-total-revenue').textContent = pending ? '—' : formatOptimizerMoney(revenue);
+            document.getElementById('opt-net-profit').textContent = pending ? '—' : formatOptimizerMoney(margin);
+            document.getElementById('opt-coverage').textContent = 'Сонгосон мөрүүдийн жин';
+            document.getElementById('opt-multiplier-label').textContent = pending
+                ? pending + ' мөрийн борлуулалтын дүн дутуу'
+                : 'Тооцоолсон нийт борлуулалтын орлого';
+            document.getElementById('opt-margin-percent').textContent = !pending && revenue
+                ? 'Зөрүүний хувь: ' + (100 * margin / revenue).toFixed(1) + '%'
+                : 'Зөрүүний хувь: —';
+        }
+
+        optimizerBody.addEventListener('change', event => {
+            if (event.target.dataset.opt !== 'level') return;
+            const row = optimizerRowsForSpecies()[Number(event.target.dataset.index)];
+            const index = event.target.dataset.index;
+            row.level = Number(event.target.value);
+            renderOptimizerTable();
+            optimizerBody.querySelector('select[data-index="' + index + '"]').focus();
+        });
+
+        optimizerBody.addEventListener('input', event => {
+            const input = event.target;
+            if (input.dataset.revenueIndex !== undefined) {
+                const row = optimizerRowsForSpecies()[Number(input.dataset.revenueIndex)];
+                row.manualRevenue = input.validity.valid && Number.isFinite(input.valueAsNumber) ? input.valueAsNumber : null;
+                calculateOptimizerTotals();
+                return;
+            }
+            if (!input.hasAttribute('data-milk-kg')) return;
+            const row = optimizerRowsForSpecies().at(-1);
+            row.kilograms = input.validity.valid && Number.isFinite(input.valueAsNumber) ? input.valueAsNumber : 0;
+            calculateOptimizerTotals();
+        });
+
+        function maximizeOptimizerProfit() {
+            optimizerRowsForSpecies().forEach(row => {
+                row.level = optimizerLevels.reduce((best, _, level) => {
+                    const candidate = optimizerRowResult(row, level).margin;
+                    return candidate !== null && candidate > optimizerRowResult(row, best).margin ? level : best;
+                }, 0);
+            });
+            renderOptimizerTable();
+            document.getElementById('opt-status').textContent = 'Борлуулалтын дүнтэй хувилбаруудаас зөрүү хамгийн өндөр түвшнийг сонгов.';
+        }
+
+        function resetOptimizer() {
+            optimizerRowsForSpecies().forEach(row => { row.level = 0; });
+            renderOptimizerTable();
+            document.getElementById('opt-status').textContent = 'Бүх мөрийг Анхан түвшинд буцаалаа.';
+        }
+
+        // ---------------------------------------------------------
+        // ANATOMY GROUP JUMP & HIGHLIGHT
+        // ---------------------------------------------------------
+        window.jumpToCatalogGroup = function(groupKey) {
+            activeAnatomyHighlightGroup = groupKey;
+            updatePhotoHotspotSelection();
+            currentFilter = 'all';
+            document.querySelectorAll('.filter-pill').forEach(p => {
+                p.classList.remove('bg-slate-900', 'text-white');
+                p.classList.add('bg-slate-100', 'text-slate-700');
+                if(p.getAttribute('data-filter') === 'all') {
+                    p.classList.remove('bg-slate-100', 'text-slate-700');
+                    p.classList.add('bg-slate-900', 'text-white');
+                }
+            });
+            renderProducts();
+            document.getElementById('catalog-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        const anatomyHotspots = document.querySelectorAll('.anatomy-hotspot');
+        const groupTabBtns = document.querySelectorAll('.group-tab-btn');
+        const photoBySpecies = {
+            cattle: { name: 'Үхэр', points: [[54, 35], [40, 48], [72, 37], [33, 72], [17, 29]] },
+            sheep: { name: 'Хонь', points: [[51, 34], [43, 50], [72, 36], [32, 76], [20, 22]] },
+            goat: { name: 'Ямаа', points: [[55, 34], [43, 50], [72, 40], [35, 76], [19, 25]] },
+            camel: { name: 'Тэмээ', points: [[48, 22], [50, 43], [70, 32], [40, 73], [19, 18]] },
+            horse: { name: 'Адуу', points: [[54, 37], [44, 53], [72, 38], [35, 75], [18, 24]] }
+        };
+
+        function updateLivestockPhoto(speciesKey) {
+            const photo = photoBySpecies[speciesKey];
+            const photoImage = document.getElementById('livestock-photo');
+            photoImage.alt = photo.name + ' — бүтэн биеийн 3D зураг';
+            photoImage.src = './livestock/' + speciesKey + '.jpg?v=3d';
+            document.getElementById('livestock-photo-label').textContent = photo.name;
+            anatomyHotspots.forEach((spot, index) => {
+                const [x, y] = photo.points[index];
+                spot.style.left = x + '%';
+                spot.style.top = y + '%';
+            });
+        }
+
+        function updatePhotoHotspotSelection() {
+            anatomyHotspots.forEach(spot => {
+                const isSelected = spot.dataset.group === 'group-' + activeAnatomyHighlightGroup;
+                spot.setAttribute('aria-pressed', String(isSelected));
+            });
+        }
+        const groupPanels = document.querySelectorAll('.group-panel');
+
+        function selectAnatomyGroup(groupKey) {
+            const mapping = { 'group-meat': 'meat', 'group-offal': 'offal', 'group-hide': 'hide', 'group-bone': 'bone', 'group-glands': 'glands' };
+            const catalogGroup = mapping[groupKey] || 'meat';
+            activeAnatomyHighlightGroup = activeAnatomyHighlightGroup === catalogGroup
+                ? null
+                : catalogGroup;
+            updatePhotoHotspotSelection();
+
+            groupTabBtns.forEach(btn => {
+                const g = btn.getAttribute('data-group');
+                if (g === groupKey) {
+                    btn.className = 'group-tab-btn w-full text-left p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50/80 transition flex items-center justify-between shadow-sm';
+                } else {
+                    btn.className = 'group-tab-btn w-full text-left p-3.5 rounded-xl border border-slate-200 bg-white hover:border-emerald-400 transition flex items-center justify-between';
+                }
+            });
+
+            groupPanels.forEach(panel => {
+                if (panel.id === groupKey) {
+                    panel.classList.remove('hidden');
+                } else {
+                    panel.classList.add('hidden');
+                }
+            });
+            renderProducts();
+        }
+
+        anatomyHotspots.forEach(spot => {
+            spot.addEventListener('click', () => selectAnatomyGroup(spot.getAttribute('data-group')));
+        });
+        groupTabBtns.forEach(btn => {
+            btn.addEventListener('click', () => selectAnatomyGroup(btn.getAttribute('data-group')));
+        });
+
+        // ---------------------------------------------------------
+        // CATALOG FILTER & RENDER
+        // ---------------------------------------------------------
+        function renderProducts() {
+            const filtered = productsData.filter(item => {
+                const matchesSpecies = catalogSpeciesFilter === 'all' || (item.speciesTags && item.speciesTags.includes(catalogSpeciesFilter));
+                const matchesCat = currentFilter === 'all' || item.category === currentFilter;
+                const q = currentSearch.trim().toLowerCase();
+                const matchesSearch = !q ||
+                    item.name.toLowerCase().includes(q) ||
+                    item.source.toLowerCase().includes(q) ||
+                    item.method.toLowerCase().includes(q) ||
+                    item.catLabel.toLowerCase().includes(q);
+                return matchesSpecies && matchesCat && matchesSearch;
+            });
+
+            const countEl = document.getElementById('catalog-count');
+            const gridEl = document.getElementById('products-grid');
+            const emptyEl = document.getElementById('empty-search-state');
+
+            if (countEl) countEl.textContent = filtered.length;
+            if (!gridEl || !emptyEl) return;
+
+            if (filtered.length === 0) {
+                gridEl.innerHTML = '';
+                emptyEl.classList.remove('hidden');
+                return;
+            }
+
+            emptyEl.classList.add('hidden');
+            gridEl.innerHTML = filtered.map(item => {
+                const isHighlighted = activeAnatomyHighlightGroup && item.anatomyGroup === activeAnatomyHighlightGroup;
+                const market = flowMarkets[activeFlowMarket];
+                // Product 21 (Гиван) is listed in the export node even though its market text omits «экспорт».
+                const matchesMarket = market && (activeFlowMarket === 'out-export'
+                    ? item.market.toLowerCase().includes('экспорт') || item.id === 21
+                    : item.category === market.category);
+                const highlightClasses = matchesMarket
+                    ? market.classes
+                    : isHighlighted
+                        ? 'ring-4 ring-emerald-500 shadow-xl border-emerald-500 bg-emerald-50/70 scale-[1.02]'
+                        : 'border-slate-200 bg-slate-50/50 hover:bg-white hover:shadow-md hover:border-slate-300';
+
+                return `
+                    <div class="p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between gap-4 ${highlightClasses}">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-2.5">
+                                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${badgeStyles[item.category]}">
+                                    ${item.catLabel}
+                                </span>
+                                <div class="flex items-center gap-1">
+                                    ${isHighlighted ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-600 text-white animate-pulse">Сонгогдсон бүлэг</span>' : ''}
+                                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-200 text-slate-700">Мал: ${(item.speciesTags || []).length} төрөл</span>
+                                    <span class="text-[11px] font-semibold text-slate-400">#${String(item.id).padStart(2, '0')}</span>
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-sm text-slate-900 leading-snug">${item.name}</h3>
+                            <div class="mt-3 space-y-1.5 text-xs">
+                                <div class="flex items-start gap-1.5 text-slate-600">
+                                    <span class="font-semibold text-slate-800 shrink-0">Түүхий эд:</span>
+                                    <span>${item.source}</span>
+                                </div>
+                                <div class="flex items-start gap-1.5 text-slate-600">
+                                    <span class="font-semibold text-slate-800 shrink-0">Технологи:</span>
+                                    <span>${item.method}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-200/70 flex items-center justify-between">
+                            <span class="text-[11px] font-medium text-slate-500 truncate max-w-[160px]">${item.std}</span>
+                            <button type="button" onclick="openProductDetail(${item.id})" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white text-xs font-bold transition shadow-sm shrink-0">
+                                <span>Дэлгэрэнгүй</span>
+                                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        // ---------------------------------------------------------
+        // PRODUCT DETAIL MODAL
+        // ---------------------------------------------------------
+        window.openProductDetail = function(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+            selectedProductForModal = product;
+
+            document.getElementById('modal-category-badge').textContent = product.catLabel;
+            document.getElementById('modal-category-badge').className = `text-xs font-bold px-2.5 py-0.5 rounded-full border ${badgeStyles[product.category]}`;
+            document.getElementById('modal-product-title').textContent = product.name;
+            document.getElementById('modal-product-source').textContent = `Эх үүсвэр: ${product.source}`;
+            document.getElementById('modal-product-desc').textContent = product.desc;
+            document.getElementById('product-modal').classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        window.closeProductDetail = function() {
+            document.getElementById('product-modal').classList.add('hidden');
+        };
+
+        window.openConsultingModal = function() {
+            document.getElementById('consulting-modal').classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        window.closeConsultingModal = function() {
+            document.getElementById('consulting-modal').classList.add('hidden');
+        };
+
+        // ---------------------------------------------------------
+        // EVENT LISTENERS SETUP
+        // ---------------------------------------------------------
+        function setupEventListeners() {
+            const weightInput = document.getElementById('weight-input');
+            const weightSlider = document.getElementById('weight-slider');
+
+            if (weightSlider) {
+                weightSlider.addEventListener('input', (e) => {
+                    if (weightInput) weightInput.value = e.target.value;
+                    updateYields(e.target.value);
+                });
+            }
+
+            if (weightInput) {
+                weightInput.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    const data = speciesData[currentSpecies];
+                    if (val >= data.minWeight && val <= data.maxWeight && weightSlider) {
+                        weightSlider.value = val;
+                    }
+                    updateYields(val);
+                });
+            }
+
+            document.querySelectorAll('.filter-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-pill').forEach(p => {
+                        p.classList.remove('bg-slate-900', 'text-white');
+                        p.classList.add('bg-slate-100', 'text-slate-700');
+                    });
+                    pill.classList.remove('bg-slate-100', 'text-slate-700');
+                    pill.classList.add('bg-slate-900', 'text-white');
+
+                    currentFilter = pill.getAttribute('data-filter');
+                    renderProducts();
+                });
+            });
+
+            document.querySelectorAll('.species-filter-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    document.querySelectorAll('.species-filter-pill').forEach(p => {
+                        p.classList.remove('bg-slate-900', 'text-white');
+                        p.classList.add('bg-slate-100', 'text-slate-700');
+                    });
+                    pill.classList.remove('bg-slate-100', 'text-slate-700');
+                    pill.classList.add('bg-slate-900', 'text-white');
+
+                    catalogSpeciesFilter = pill.getAttribute('data-species');
+                    renderProducts();
+                });
+            });
+
+            const searchInput = document.getElementById('product-search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    currentSearch = e.target.value;
+                    renderProducts();
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateYields(450);
+            renderProducts();
+            setupEventListeners();
+        });
+    </script>
+</body>
+</html>
