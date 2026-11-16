@@ -995,11 +995,16 @@
 
                 <section aria-labelledby="product-inquiry-title" class="p-4 rounded-2xl border border-amber-200 bg-amber-50">
                     <h4 id="product-inquiry-title" class="text-sm font-extrabold text-slate-900">Технологийн схем ба стандарт</h4>
-                    <p class="mt-1.5 text-xs leading-relaxed text-slate-700">Энэ бүтээгдэхүүний схем, стандарт болон захиалгын нөхцөлийг Би тү Би Консалтинг ХХК-аас лавлана уу. Холбогдохдоо бүтээгдэхүүний <strong id="modal-product-reference"></strong> дугаарыг хэлээрэй.</p>
-                    <a href="tel:99997073" class="mt-3 inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-xs font-extrabold text-slate-950 hover:bg-amber-400">
-                        <i data-lucide="phone-call" class="h-4 w-4" aria-hidden="true"></i>
-                        <span>Захиалга лавлах · 99997073</span>
+                    <dl class="mt-2 space-y-2 text-xs leading-relaxed text-slate-700">
+                        <div><dt class="inline font-bold">Технологи</dt> <dd id="modal-product-method" class="inline"></dd></div>
+                        <div><dt class="inline font-bold">Стандарт</dt> <dd id="modal-product-standard" class="inline"></dd></div>
+                        <div><dt class="inline font-bold">Зах зээл</dt> <dd id="modal-product-market" class="inline"></dd></div>
+                    </dl>
+                    <a id="product-order-link" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-xs font-extrabold text-slate-950 hover:bg-amber-400">
+                        <i data-lucide="clipboard-list" class="h-4 w-4" aria-hidden="true"></i>
+                        <span>Захиалах</span>
                     </a>
+                    <p class="mt-2 text-xs text-slate-700">Схем, стандартын материал авах хүсэлтээ бүртгүүлнэ үү.</p>
                 </section>
 
                 <!-- Consulting CTA inside modal -->
@@ -2359,7 +2364,14 @@
             document.getElementById('modal-product-title').textContent = product.name;
             document.getElementById('modal-product-source').textContent = `Эх үүсвэр: ${product.source}`;
             document.getElementById('modal-product-desc').textContent = product.desc;
-            document.getElementById('modal-product-reference').textContent = '№' + String(product.id).padStart(2, '0');
+            document.getElementById('modal-product-method').textContent = product.method;
+            document.getElementById('modal-product-standard').textContent = product.std;
+            document.getElementById('modal-product-market').textContent = product.market;
+
+            const orderUrl = new URL('https://docs.google.com/forms/d/e/1FAIpQLSdMtkn-iv4b8sXFnXh4Kd2-ZvRKtAcKqIuEiO5j0ihbfYF4OQ/viewform?usp=pp_url');
+            orderUrl.searchParams.set('entry.1485111193', '#' + String(product.id).padStart(2, '0') + ' — ' + product.name);
+            orderUrl.searchParams.set('entry.586404840', product.catLabel);
+            document.getElementById('product-order-link').href = orderUrl.href;
             document.getElementById('product-modal').classList.remove('hidden');
             lucide.createIcons();
         };
