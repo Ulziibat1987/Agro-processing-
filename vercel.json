@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/orders.mjs": {
+      "maxDuration": 20
+    }
+  }
+}
