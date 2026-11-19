@@ -108,6 +108,10 @@
         .node-card:hover {
             transform: translateY(-2px);
         }
+            .project-input-tooltip { visibility: hidden; opacity: 0; pointer-events: none; }
+        .project-input-help:hover + .project-input-tooltip,
+        .project-input-help:focus + .project-input-tooltip,
+        .project-input-tooltip:hover { visibility: visible; opacity: 1; pointer-events: auto; }
     </style>
     <style>
         #livestock-photo { display: block; width: 100%; height: auto; }
@@ -1005,13 +1009,19 @@
                         <div class="p-3 rounded-2xl bg-amber-500/20 text-amber-400 mb-2">
                             <i data-lucide="lock" class="w-7 h-7"></i>
                         </div>
-                        <h5 class="font-extrabold text-base mb-1">Технологийн схем ба Стандарт (150,000₮)</h5>
+                        <div class="relative w-full max-w-md mb-1">
+                            <h5 class="inline font-extrabold text-base">Төслийн орц (150,000₮)</h5>
+                            <button type="button" class="project-input-help ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full border border-amber-300 text-xs font-bold text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300" aria-label="Төслийн орцын тайлбар" aria-describedby="project-input-tooltip">?</button>
+                            <div id="project-input-tooltip" role="tooltip" class="project-input-tooltip absolute left-0 right-0 top-full z-20 rounded-xl border border-slate-600 bg-slate-800 p-3 text-left text-xs font-normal leading-relaxed text-white shadow-xl">
+                                Үйлдвэрлэлийн стандарт, Үйл ажиллагааны процесс, Технологи схем, Тоног төхөөрөмжийн дэлгэрэнгүй судалгаа, Ажиллах хүчний хэрэгцээ зэрэг мэдээлэл агуулагдсан болно.
+                            </div>
+                        </div>
                         <p class="text-[11px] text-slate-300 max-w-md mb-3 leading-relaxed">
                             Хаан банк: <strong class="text-emerald-400">5000742424</strong><br>
                             Гүйлгээний утга дээр: <span class="text-amber-300">[Таны Утасны дугаар] + [Имэйл хаяг]</span> бичиж шилжүүлнэ үү.
                         </p>
                         <p class="text-[10px] text-amber-300/90 max-w-md mb-4 bg-amber-950/60 p-2.5 rounded-xl border border-amber-500/30 text-left leading-snug">
-                            ⚠️ <strong>Анхааруулга:</strong> Тухайн мэдээлэл нь олон жилийн судалгаа хүч хөдөлмөрөөр бүтсэн тул бусдад задруулах, хуулбарлан олшруулсан тохиолдолд бидний зүгээс хуулийн дагуу нэхэмжлэл гаргахыг хатуу анхаарна уу.
+                            ⚠️ <strong>Анхаарах зүйл:</strong> Уг мэдээлэлд олон жилийн судалгаа, хүч хөдөлмөр шингэсэн тул бусдад задруулахгүй, хуулбарлан олшруулахгүй байхыг танаас хүсэж байна. Цаашид энэхүү ажлыг хамтын судалгаагаар улам сайжруулан хөгжүүлж, харилцан ашигтай хамтран ажиллахыг урьж байна.
                         </p>
                         <button type="button" id="product-order-button" onclick="openCapacityForm()" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs shadow-lg transition flex items-center gap-2">
                             <i data-lucide="check-circle" class="w-4 h-4"></i>
